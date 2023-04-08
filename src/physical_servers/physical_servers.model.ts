@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import { os } from "src/manuals/manuals.model";
 
 interface physical_servers_add {
     server_name: string;
@@ -28,8 +29,9 @@ export class physical_servers extends Model<physical_servers, physical_servers_a
     // @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
     // backup: string;
 
-    // @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
-    // os: string;
+    @ForeignKey(() => os)
+    @Column({type: DataType.INTEGER})
+    os_id: number;
 
     @Column({type: DataType.STRING, allowNull: true})
     cpu: string;
@@ -62,6 +64,11 @@ export class physical_servers extends Model<physical_servers, physical_servers_a
     port: number;
 
     @Column({type: DataType.STRING, allowNull: true})
-    comment: string;
+    comment: string; 
 
+    
+
+
+    @BelongsTo(() => os)
+    os_status: os
 }
