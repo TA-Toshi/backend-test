@@ -6,7 +6,7 @@ interface os_add {
     status: string;
 }
 
-// +
+
 @Table({tableName: 'os'})
 export class os extends Model<os, os_add>{
 
@@ -24,7 +24,7 @@ interface memory_type_add {
     status: string;
 }
 
-// +
+
 @Table({tableName: 'memory_type'})
 export class memory_type extends Model<memory_type, memory_type_add>{
 
@@ -41,7 +41,7 @@ export class memory_type extends Model<memory_type, memory_type_add>{
 interface disk_add {
     status: string;
 }
-// +
+
 @Table({tableName: 'disk'})
 export class disk extends Model<disk, disk_add>{
 
@@ -58,7 +58,7 @@ export class disk extends Model<disk, disk_add>{
 interface backup_add {
     status: string;
 }
-// +
+
 @Table({tableName: 'backup'})
 export class backup extends Model<backup, backup_add>{
 
@@ -75,7 +75,7 @@ export class backup extends Model<backup, backup_add>{
 interface zabbix_agent_add {
     status: string;
 }
-// +
+
 @Table({tableName: 'zabbix_agent'})
 export class zabbix_agent extends Model<zabbix_agent, zabbix_agent_add>{
 
@@ -92,7 +92,7 @@ export class zabbix_agent extends Model<zabbix_agent, zabbix_agent_add>{
 interface location_add {
     status: string;
 }
-// +
+
 @Table({tableName: 'location'})
 export class location extends Model<location, location_add>{
 
@@ -109,7 +109,7 @@ export class location extends Model<location, location_add>{
 interface backup_physical_machine_add {
     status: string;
 }
-// +
+
 @Table({tableName: 'backup_physical_machine'})
 export class backup_physical_machine extends Model<backup_physical_machine, backup_physical_machine_add>{
 
@@ -126,7 +126,7 @@ export class backup_physical_machine extends Model<backup_physical_machine, back
 interface vm_status_add {
     status: string;
 }
-// +
+
 @Table({tableName: 'vm_status'})
 export class vm_status extends Model<vm_status, vm_status_add>{
 
@@ -143,7 +143,7 @@ export class vm_status extends Model<vm_status, vm_status_add>{
 interface disk_location_add {
     status: string;
 }
-// +
+
 @Table({tableName: 'disk_location'})
 export class disk_location extends Model<disk_location, disk_location_add>{
 

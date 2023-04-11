@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { create_dto_manuals } from './dto/create_manuals.dto';
 import { ManualsService } from './manuals.service';
 
@@ -13,9 +13,14 @@ export class ManualsController {
         return this.manuals_service.os_status_create(create_dto_manuals);
     }
 
-    @Get('all_os')
+    @Get('all_os') 
     getAll_os() {
         return this.manuals_service.os_status_get_all();
+    }
+
+    @Get('os/:id')
+    getById_os(@Param('id') id: string) {
+        return this.manuals_service.os_status_check(id);
     }
 
     // memory_type
@@ -29,6 +34,11 @@ export class ManualsController {
         return this.manuals_service.memory_type_status_get_all();
     }
 
+    @Get('memory_type/:id')
+    getById_memory_type(@Param('id') id: string) {
+        return this.manuals_service.memory_type_status_check(id);
+    }
+
     // disk
     @Post('create_disk')
     create_disk(@Body() create_dto_manuals: create_dto_manuals) {
@@ -40,7 +50,12 @@ export class ManualsController {
         return this.manuals_service.disk_status_get_all();
     }
 
-    // backup
+    @Get('disk/:id')
+    getById_disk(@Param('id') id: string) {
+        return this.manuals_service.disk_status_check(id);
+    }
+
+    // backup 
     @Post('create_backup')
     create_backup(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.backup_status_create(create_dto_manuals);
@@ -49,6 +64,11 @@ export class ManualsController {
     @Get('all_backup')
     getAll_backup() {
         return this.manuals_service.backup_status_get_all();
+    }
+
+    @Get('backup/:id')
+    getById_backup(@Param('id') id: string) {
+        return this.manuals_service.backup_status_check(id);
     }
 
     // zabbix_agent
@@ -62,6 +82,11 @@ export class ManualsController {
         return this.manuals_service.zabbix_agent_status_get_all();
     }
 
+    @Get('zabbix_agent/:id')
+    getById_zabbix_agent(@Param('id') id: string) {
+        return this.manuals_service.zabbix_agent_status_check(id);
+    }
+
     // location
     @Post('create_location')
     create_location(@Body() create_dto_manuals: create_dto_manuals) {
@@ -71,6 +96,11 @@ export class ManualsController {
     @Get('all_location')
     getAll_location() {
         return this.manuals_service.location_status_get_all();
+    }
+
+    @Get('location/:id')
+    getById_location(@Param('id') id: string) {
+        return this.manuals_service.location_status_check(id);
     }
 
     // backup_physical_machine
@@ -84,6 +114,11 @@ export class ManualsController {
         return this.manuals_service.backup_physical_machine_status_get_all();
     }
 
+    @Get('backup_physical_machine/:id')
+    getById_backup_physical_machine(@Param('id') id: string) {
+        return this.manuals_service.backup_physical_machine_status_check(id);
+    }
+
     // vm_status
     @Post('create_vm_status')
     create_vm_status(@Body() create_dto_manuals: create_dto_manuals) {
@@ -93,6 +128,11 @@ export class ManualsController {
     @Get('all_vm_status')
     getAll_vm_status() {
         return this.manuals_service.vm_status_status_get_all();
+    }
+
+    @Get('vm_status/:id')
+    getById_vm_status(@Param('id') id: string) {
+        return this.manuals_service.vm_status_status_check(id);
     }
 
     // disk_location
@@ -106,6 +146,11 @@ export class ManualsController {
         return this.manuals_service.disk_location_status_get_all();
     }
 
+    @Get('disk_location/:id')
+    getById_disk_location(@Param('id') id: string) {
+        return this.manuals_service.disk_location_status_check(id);
+    }
+
     // backup_creation_mechanism
     @Post('create_backup_creation_mechanism')
     create_backup_creation_mechanism(@Body() create_dto_manuals: create_dto_manuals) {
@@ -115,5 +160,10 @@ export class ManualsController {
     @Get('all_backup_creation_mechanism')
     getAll_backup_creation_mechanism() {
         return this.manuals_service.backup_creation_mechanism_status_get_all();
+    }
+
+    @Get('backup_creation_mechanism/:id')
+    getById_backup_creation_mechanism(@Param('id') id: string) {
+        return this.manuals_service.backup_creation_mechanism_status_check(id);
     }
 }

@@ -32,6 +32,11 @@ export class ManualsService {
         return all_os;
     }
 
+    async os_status_check(id: string) {
+        const os = await this.os_repository.findOne({where:{"id": id}})
+        return os;
+    }
+
     // memory_type
     async memory_type_status_create(dto: create_dto_manuals) {
         const memory_type = await this.memory_type_repository.create(dto);
@@ -41,6 +46,11 @@ export class ManualsService {
     async memory_type_status_get_all() {
         const all_memory_type = await this.memory_type_repository.findAll();
         return all_memory_type;
+    }
+
+    async memory_type_status_check(id: string) {
+        const memory_type = await this.memory_type_repository.findOne({where:{"id": id}})
+        return memory_type;
     }
 
     // disk
@@ -54,6 +64,11 @@ export class ManualsService {
         return all_disk;
     }
 
+    async disk_status_check(id: string) {
+        const disk = await this.disk_repository.findOne({where:{"id": id}})
+        return disk;
+    }
+
     // backup
     async backup_status_create(dto: create_dto_manuals) {
         const backup = await this.backup_repository.create(dto);
@@ -63,6 +78,11 @@ export class ManualsService {
     async backup_status_get_all() {
         const all_backup = await this.backup_repository.findAll();
         return all_backup;
+    }
+
+    async backup_status_check(id: string) {
+        const backup = await this.backup_repository.findOne({where:{"id": id}})
+        return backup;
     }
 
     // zabbix_agent
@@ -76,6 +96,11 @@ export class ManualsService {
         return all_zabbix_agent;
     }
 
+    async zabbix_agent_status_check(id: string) {
+        const zabbix_agent = await this.zabbix_agent_repository.findOne({where:{"id": id}})
+        return zabbix_agent;
+    }
+
     // location
     async location_status_create(dto: create_dto_manuals) {
         const location = await this.location_repository.create(dto);
@@ -85,6 +110,11 @@ export class ManualsService {
     async location_status_get_all() {
         const all_location = await this.location_repository.findAll();
         return all_location;
+    }
+
+    async location_status_check(id: string) {
+        const location = await this.location_repository.findOne({where:{"id": id}})
+        return location;
     }
 
     // backup_physical_machine
@@ -98,6 +128,11 @@ export class ManualsService {
         return all_backup_physical_machine;
     }
 
+    async backup_physical_machine_status_check(id: string) {
+        const backup_physical_machine = await this.backup_physical_machine_repository.findOne({where:{"id": id}})
+        return backup_physical_machine;
+    }
+
     // vm_status
     async vm_status_status_create(dto: create_dto_manuals) {
         const vm_status = await this.vm_status_repository.create(dto);
@@ -107,6 +142,11 @@ export class ManualsService {
     async vm_status_status_get_all() {
         const all_vm_status = await this.vm_status_repository.findAll();
         return all_vm_status;
+    }
+
+    async vm_status_status_check(id: string) {
+        const vm_status = await this.vm_status_repository.findOne({where:{"id": id}})
+        return vm_status;
     }
 
     // disk_location
@@ -120,6 +160,11 @@ export class ManualsService {
         return all_disk_location;
     }
 
+    async disk_location_status_check(id: string) {
+        const disk_location = await this.disk_location_repository.findOne({where:{"id": id}})
+        return disk_location;
+    }
+
     // backup_creation_mechanism
     async backup_creation_mechanism_status_create(dto: create_dto_manuals) {
         const backup_creation_mechanism = await this.backup_creation_mechanism_repository.create(dto);
@@ -129,5 +174,10 @@ export class ManualsService {
     async backup_creation_mechanism_status_get_all() {
         const all_backup_creation_mechanism = await this.backup_creation_mechanism_repository.findAll();
         return all_backup_creation_mechanism;
+    }
+
+    async backup_creation_mechanism_status_check(id: string) {
+        const backup_creation_mechanism = await this.backup_creation_mechanism_repository.findOne({where:{"id": id}})
+        return backup_creation_mechanism;
     }
 }
