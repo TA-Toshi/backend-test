@@ -55,19 +55,15 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     @Column({type: DataType.STRING, allowNull: true})
     machine_name: string;
 
-    // Required_Date_VM_Shutdown
     @Column({type: DataType.STRING, allowNull: true})
     required_date_vm_shutdown: string;
 
-    // Automatic_Internal_Domain_Name
     @Column({type: DataType.STRING, allowNull: true})
     automatic_internal_domain_name: string;
 
-    // Additional_Internal_Domain_Name
     @Column({type: DataType.STRING, allowNull: true})
     additional_internal_domain_name: string;
 
-    // Domain_Names
     @Column({type: DataType.STRING, allowNull: true})
     domain_names: string;
     
