@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { create_dto_manuals } from './dto/create_manuals.dto';
 import { ManualsService } from './manuals.service';
 
@@ -23,6 +23,11 @@ export class ManualsController {
         return this.manuals_service.os_status_check(id);
     }
 
+    @Delete('os/:id')
+    deleteById_os(@Param('id') id: string) {
+        return this.manuals_service.os_status_delete(id);
+    }
+
     // memory_type
     @Post('create_memory_type')
     create_memory_type(@Body() create_dto_manuals: create_dto_manuals) {
@@ -37,6 +42,11 @@ export class ManualsController {
     @Get('memory_type/:id')
     getById_memory_type(@Param('id') id: string) {
         return this.manuals_service.memory_type_status_check(id);
+    }
+
+    @Delete('memory_type/:id')
+    deleteById_memory_type(@Param('id') id: string) {
+        return this.manuals_service.memory_type_status_delete(id);
     }
 
     // disk
@@ -55,6 +65,11 @@ export class ManualsController {
         return this.manuals_service.disk_status_check(id);
     }
 
+    @Delete('disk/:id')
+    deleteById_disk(@Param('id') id: string) {
+        return this.manuals_service.disk_status_delete(id);
+    }
+
     // backup 
     @Post('create_backup')
     create_backup(@Body() create_dto_manuals: create_dto_manuals) {
@@ -69,6 +84,11 @@ export class ManualsController {
     @Get('backup/:id')
     getById_backup(@Param('id') id: string) {
         return this.manuals_service.backup_status_check(id);
+    }
+
+    @Delete('backup/:id')
+    deleteById_backup(@Param('id') id: string) {
+        return this.manuals_service.backup_status_delete(id);
     }
 
     // zabbix_agent
@@ -87,6 +107,11 @@ export class ManualsController {
         return this.manuals_service.zabbix_agent_status_check(id);
     }
 
+    @Delete('zabbix_agent/:id')
+    deleteById_zabbix_agent(@Param('id') id: string) {
+        return this.manuals_service.zabbix_agent_status_delete(id);
+    }
+
     // location
     @Post('create_location')
     create_location(@Body() create_dto_manuals: create_dto_manuals) {
@@ -101,6 +126,11 @@ export class ManualsController {
     @Get('location/:id')
     getById_location(@Param('id') id: string) {
         return this.manuals_service.location_status_check(id);
+    }
+
+    @Delete('location/:id')
+    deleteById_location(@Param('id') id: string) {
+        return this.manuals_service.location_status_delete(id);
     }
 
     // backup_physical_machine
@@ -119,6 +149,11 @@ export class ManualsController {
         return this.manuals_service.backup_physical_machine_status_check(id);
     }
 
+    @Delete('backup_physical_machine/:id')
+    deleteById_backup_physical_machine(@Param('id') id: string) {
+        return this.manuals_service.backup_physical_machine_status_delete(id);
+    }
+
     // vm_status
     @Post('create_vm_status')
     create_vm_status(@Body() create_dto_manuals: create_dto_manuals) {
@@ -133,6 +168,11 @@ export class ManualsController {
     @Get('vm_status/:id')
     getById_vm_status(@Param('id') id: string) {
         return this.manuals_service.vm_status_status_check(id);
+    }
+
+    @Delete('vm_status/:id')
+    deleteById_vm_status(@Param('id') id: string) {
+        return this.manuals_service.vm_status_status_delete(id);
     }
 
     // disk_location
@@ -151,6 +191,11 @@ export class ManualsController {
         return this.manuals_service.disk_location_status_check(id);
     }
 
+    @Delete('disk_location/:id')
+    deleteById_disk_location(@Param('id') id: string) {
+        return this.manuals_service.disk_location_status_delete(id);
+    }
+
     // backup_creation_mechanism
     @Post('create_backup_creation_mechanism')
     create_backup_creation_mechanism(@Body() create_dto_manuals: create_dto_manuals) {
@@ -165,5 +210,10 @@ export class ManualsController {
     @Get('backup_creation_mechanism/:id')
     getById_backup_creation_mechanism(@Param('id') id: string) {
         return this.manuals_service.backup_creation_mechanism_status_check(id);
+    }
+
+    @Delete('backup_creation_mechanism/:id')
+    deleteById_backup_creation_mechanism(@Param('id') id: string) {
+        return this.manuals_service.backup_creation_mechanism_status_delete(id);
     }
 }
