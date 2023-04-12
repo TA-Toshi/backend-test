@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { create_dto_manuals } from './dto/create_manuals.dto';
 import { ManualsService } from './manuals.service';
 
@@ -13,7 +13,7 @@ export class ManualsController {
         return this.manuals_service.os_status_create(create_dto_manuals);
     }
 
-    @Get('all_os') 
+    @Get('all_os')
     getAll_os() {
         return this.manuals_service.os_status_get_all();
     }
@@ -26,6 +26,11 @@ export class ManualsController {
     @Delete('os/:id')
     deleteById_os(@Param('id') id: string) {
         return this.manuals_service.os_status_delete(id);
+    }
+
+    @Put('os/:id')
+    updateById_os(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.os_status_update(create_dto_manuals, id)
     }
 
     // memory_type

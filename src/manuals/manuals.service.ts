@@ -42,6 +42,11 @@ export class ManualsService {
         return os;
     }
 
+    async os_status_update(dto: create_dto_manuals, id: string) {
+        const os = await this.os_repository.update(dto, {where: {"id": id}});
+        return os;
+    }
+
     // memory_type
     async memory_type_status_create(dto: create_dto_manuals) {
         const memory_type = await this.memory_type_repository.create(dto);

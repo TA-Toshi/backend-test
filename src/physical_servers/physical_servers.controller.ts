@@ -22,7 +22,7 @@ export class PhysicalServersController {
         return this.physical_servers_service.physical_servers_check(id);
     }
 
-    @Delete(':id')
+    @Delete(':id') 
     deleteById(@Param('id') id: string) {
         return this.physical_servers_service.physical_servers_delete(id);
     }
