@@ -54,6 +54,11 @@ export class ManualsController {
         return this.manuals_service.memory_type_status_delete(id);
     }
 
+    @Put('memory_type/:id')
+    updateById_memory_type(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.memory_type_status_update(create_dto_manuals, id)
+    }
+
     // disk
     @Post('create_disk')
     create_disk(@Body() create_dto_manuals: create_dto_manuals) {
@@ -73,6 +78,11 @@ export class ManualsController {
     @Delete('disk/:id')
     deleteById_disk(@Param('id') id: string) {
         return this.manuals_service.disk_status_delete(id);
+    }
+
+    @Put('disk/:id')
+    updateById_disk(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.disk_status_update(create_dto_manuals, id)
     }
 
     // backup 
@@ -96,6 +106,11 @@ export class ManualsController {
         return this.manuals_service.backup_status_delete(id);
     }
 
+    @Put('backup/:id')
+    updateById_backup(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.backup_status_update(create_dto_manuals, id)
+    }
+
     // zabbix_agent
     @Post('create_zabbix_agent')
     create_zabbix_agent(@Body() create_dto_manuals: create_dto_manuals) {
@@ -115,6 +130,11 @@ export class ManualsController {
     @Delete('zabbix_agent/:id')
     deleteById_zabbix_agent(@Param('id') id: string) {
         return this.manuals_service.zabbix_agent_status_delete(id);
+    }
+
+    @Put('zabbix_agent/:id')
+    updateById_zabbix_agent(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.zabbix_agent_status_update(create_dto_manuals, id)
     }
 
     // location
@@ -138,6 +158,11 @@ export class ManualsController {
         return this.manuals_service.location_status_delete(id);
     }
 
+    @Put('location/:id')
+    updateById_location(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.location_status_update(create_dto_manuals, id)
+    }
+
     // backup_physical_machine
     @Post('create_backup_physical_machine')
     create_backup_physical_machine(@Body() create_dto_manuals: create_dto_manuals) {
@@ -157,6 +182,11 @@ export class ManualsController {
     @Delete('backup_physical_machine/:id')
     deleteById_backup_physical_machine(@Param('id') id: string) {
         return this.manuals_service.backup_physical_machine_status_delete(id);
+    }
+
+    @Put('backup_physical_machine/:id')
+    updateById_backup_physical_machine(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.backup_physical_machine_status_update(create_dto_manuals, id)
     }
 
     // vm_status
@@ -180,6 +210,11 @@ export class ManualsController {
         return this.manuals_service.vm_status_status_delete(id);
     }
 
+    @Put('vm_status/:id')
+    updateById_vm_status(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.vm_status_status_update(create_dto_manuals, id)
+    }
+
     // disk_location
     @Post('create_disk_location')
     create_disk_location(@Body() create_dto_manuals: create_dto_manuals) {
@@ -201,6 +236,11 @@ export class ManualsController {
         return this.manuals_service.disk_location_status_delete(id);
     }
 
+    @Put('disk_location/:id')
+    updateById_disk_location(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.disk_location_status_update(create_dto_manuals, id)
+    }
+
     // backup_creation_mechanism
     @Post('create_backup_creation_mechanism')
     create_backup_creation_mechanism(@Body() create_dto_manuals: create_dto_manuals) {
@@ -220,5 +260,10 @@ export class ManualsController {
     @Delete('backup_creation_mechanism/:id')
     deleteById_backup_creation_mechanism(@Param('id') id: string) {
         return this.manuals_service.backup_creation_mechanism_status_delete(id);
+    }
+
+    @Put('backup_creation_mechanism/:id')
+    updateById_backup_creation_mechanism(@Body() create_dto_manuals: create_dto_manuals, @Param('id') id: string) {
+        return this.manuals_service.backup_creation_mechanism_status_update(create_dto_manuals, id)
     }
 }
