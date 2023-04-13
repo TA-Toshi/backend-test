@@ -8,7 +8,7 @@ interface virtual_servers_add {
     vm_name: string;
     backup_id: number;
     vm_status_id: number;
-    os_id: number;
+    os_id: string;
     machine_name: string;
     required_date_vm_shutdown: string;
     automatic_internal_domain_name: string;
@@ -59,8 +59,8 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     vm_status_id: number;
 
     @ForeignKey(() => os)
-    @Column({type: DataType.INTEGER})
-    os_id: number;
+    @Column({type: DataType.STRING})
+    os_id: string;
 
     // составной
     @Column({type: DataType.STRING, allowNull: true})

@@ -6,7 +6,7 @@ export class create_dto_virtual_servers {
     readonly vm_name: string;
     readonly backup_id: number;
     readonly vm_status_id: number;
-    readonly os_id: number;
+    readonly os_id: string;
     readonly machine_name: string;
     readonly required_date_vm_shutdown: string;
     readonly automatic_internal_domain_name: string;

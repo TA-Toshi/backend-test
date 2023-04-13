@@ -5,7 +5,7 @@ interface physical_servers_add {
     server_name: string;
     appointment: string;
     backup_id: number;
-    os_id: number;
+    os_id: string;
     cpu: string;
     cores: number;
     streams: number;
@@ -38,8 +38,8 @@ export class physical_servers extends Model<physical_servers, physical_servers_a
     backup_id: number
 
     @ForeignKey(() => os)
-    @Column({type: DataType.INTEGER, allowNull: false})
-    os_id: number;
+    @Column({type: DataType.STRING})
+    os_id: string;
 
     @Column({type: DataType.STRING, allowNull: false})
     cpu: string; 

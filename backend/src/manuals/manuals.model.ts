@@ -10,14 +10,17 @@ interface os_add {
 @Table({tableName: 'os'})
 export class os extends Model<os, os_add>{
 
-    @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
-    id: number;
+    // @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
+    // id: number;
 
-    @Column({type: DataType.STRING, allowNull: false, unique: true})
+    @Column({type: DataType.STRING, allowNull: false, unique: true, primaryKey: true})
     status: string;
     
     @HasMany(() => physical_servers)
     phys_serve: physical_servers[];
+
+    @HasMany(() => virtual_servers)
+    vr_serve: virtual_servers[];
 }
 
 interface memory_type_add {
@@ -70,6 +73,9 @@ export class backup extends Model<backup, backup_add>{
 
     @HasMany(() => physical_servers)
     phys_serve: physical_servers[];
+
+    @HasMany(() => virtual_servers)
+    vr_serve: virtual_servers[];
 }
 
 interface zabbix_agent_add {
@@ -87,6 +93,9 @@ export class zabbix_agent extends Model<zabbix_agent, zabbix_agent_add>{
 
     @HasMany(() => physical_servers)
     phys_serve: physical_servers[];
+
+    @HasMany(() => virtual_servers)
+    vr_serve: virtual_servers[];
 }
 
 interface location_add {
@@ -104,6 +113,9 @@ export class location extends Model<location, location_add>{
 
     @HasMany(() => physical_servers)
     phys_serve: physical_servers[];
+
+    @HasMany(() => virtual_servers)
+    vr_serve: virtual_servers[];
 }
 
 interface backup_physical_machine_add {
