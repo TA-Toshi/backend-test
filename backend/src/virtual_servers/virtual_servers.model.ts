@@ -5,11 +5,11 @@ interface virtual_servers_add {
     client: string;
     service: string;
     environment: string;
-    vm_name: string;
+    // vm_name: string;
     backup_id: number;
     vm_status_id: number;
     os_id: number;
-    machine_name: string;
+    // machine_name: string;
     required_date_vm_shutdown: string;
     automatic_internal_domain_name: string;
     additional_internal_domain_name: string;
@@ -24,8 +24,8 @@ interface virtual_servers_add {
     ip: any;
     vlan: any;
     backup_creation_mechanism_id: number;
-    number_stored_copies_vm: string;
-    maximum_storage_size_gb: number;
+    // number_stored_copies_vm: string;
+    // maximum_storage_size_gb: number;
     comment: string;
 }
 
@@ -47,8 +47,8 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     environment: string;
 
     // составной
-    @Column({type: DataType.STRING, allowNull: true})
-    vm_name: string;
+    // @Column({type: DataType.STRING, allowNull: true})
+    // vm_name: string;
 
     @ForeignKey(() => backup)
     @Column({type: DataType.INTEGER})
@@ -63,8 +63,8 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     os_id: number;
 
     // составной
-    @Column({type: DataType.STRING, allowNull: true})
-    machine_name: string;
+    // @Column({type: DataType.STRING, allowNull: true})
+    // machine_name: string;
 
     @Column({type: DataType.STRING, allowNull: true})
     required_date_vm_shutdown: string;
@@ -113,12 +113,12 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     backup_creation_mechanism_id: number;
     
     // составной
-    @Column({type: DataType.STRING, allowNull: true})
-    number_stored_copies_vm: string;
+    // @Column({type: DataType.STRING, allowNull: true})
+    // number_stored_copies_vm: string;
 
     // составной
-    @Column({type: DataType.INTEGER, allowNull: true})
-    maximum_storage_size_gb: number;
+    // @Column({type: DataType.INTEGER, allowNull: true})
+    // maximum_storage_size_gb: number;
 
     @Column({type: DataType.STRING, allowNull: true})
     comment: string; 
