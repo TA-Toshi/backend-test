@@ -10,10 +10,10 @@ interface os_add {
 @Table({tableName: 'os'})
 export class os extends Model<os, os_add>{
 
-    // @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
-    // id: number;
+    @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
+    id: number;
 
-    @Column({type: DataType.STRING, allowNull: false, unique: true, primaryKey: true})
+    @Column({type: DataType.STRING, allowNull: false, unique: true})
     status: string;
     
     @HasMany(() => physical_servers)

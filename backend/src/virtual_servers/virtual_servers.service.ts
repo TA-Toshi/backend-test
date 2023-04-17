@@ -9,7 +9,34 @@ export class VirtualServersService {
     constructor(@InjectModel(virtual_servers) private virtual_servers_repository: typeof virtual_servers){}
 
     async virtual_servers_get_all() {
-        const all_virtual_servers = await this.virtual_servers_repository.findAll();
+        const all_virtual_servers = await this.virtual_servers_repository.findAll({
+            where:{},
+            include:[{
+                association: "vm_status_status",
+                attributes: ["status"]
+            },
+            {
+                association: "os_status",
+                attributes: ["status"]
+            },
+            {
+                association: "disk_location_status",
+                attributes: ["status"]
+            },
+            {
+                association: "backup_status",
+                attributes: ["status"]
+            },
+            {
+                association: "location_status",
+                attributes: ["status"]
+            },
+            {
+                association: "backup_creation_mechanism_status",
+                attributes: ["status"]
+            },
+        ]}
+        );
         return all_virtual_servers;
     }
 
@@ -19,7 +46,33 @@ export class VirtualServersService {
     }
 
     async virtual_server_check(id: string) {
-        const vr_server = this.virtual_servers_repository.findOne({where: {"id": id}});
+        const vr_server = this.virtual_servers_repository.findOne({
+            where: {"id": id},
+            include:[{
+                association: "vm_status_status",
+                attributes: ["status"]
+            },
+            {
+                association: "os_status",
+                attributes: ["status"]
+            },
+            {
+                association: "disk_location_status",
+                attributes: ["status"]
+            },
+            {
+                association: "backup_status",
+                attributes: ["status"]
+            },
+            {
+                association: "location_status",
+                attributes: ["status"]
+            },
+            {
+                association: "backup_creation_mechanism_status",
+                attributes: ["status"]
+            },
+        ]});
         return vr_server;
     }
 
