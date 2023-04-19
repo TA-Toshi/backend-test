@@ -22,7 +22,7 @@ export class create_dto_virtual_servers {
     readonly ip: any;
     readonly vlan: any;
     readonly backup_creation_mechanism_id: number;
-    // readonly number_stored_copies_vm: string;
-    // readonly maximum_storage_size_gb: number;
+    readonly number_stored_copies_vm: number;
+    readonly maximum_storage_size_gb: number;
     readonly comment: string;
 }

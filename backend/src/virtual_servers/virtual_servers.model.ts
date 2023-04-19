@@ -24,8 +24,8 @@ interface virtual_servers_add {
     ip: any;
     vlan: any;
     backup_creation_mechanism_id: number;
-    // number_stored_copies_vm: string;
-    // maximum_storage_size_gb: number;
+    number_stored_copies_vm: number;
+    maximum_storage_size_gb: number;
     comment: string;
 }
 
@@ -113,12 +113,12 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     backup_creation_mechanism_id: number;
     
     // составной
-    // @Column({type: DataType.STRING, allowNull: true})
-    // number_stored_copies_vm: string;
+    @Column({type: DataType.INTEGER, allowNull: true})
+    number_stored_copies_vm: number;
 
     // составной
-    // @Column({type: DataType.INTEGER, allowNull: true})
-    // maximum_storage_size_gb: number;
+    @Column({type: DataType.INTEGER, allowNull: true})
+    maximum_storage_size_gb: number;
 
     @Column({type: DataType.STRING, allowNull: true})
     comment: string; 
