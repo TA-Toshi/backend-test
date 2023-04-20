@@ -52,6 +52,11 @@ export class PhysicalServersService {
                     Sequelize.col("backup_physical_machine_status.status"), 
                     ), 
                     'backup_physical_machine'],
+                [Sequelize.fn(
+                    "",  
+                    Sequelize.col("zabbix_agent_status.status"), 
+                    ), 
+                    'zabbix_agent'],    
                 ]},
             include:[{
                 association: "memory_type_status",
@@ -75,6 +80,10 @@ export class PhysicalServersService {
             },
             {
                 association: "backup_physical_machine_status",
+                attributes: ["status"]
+            },
+            {
+                association: "zabbix_agent_status",
                 attributes: ["status"]
             },
         ]
@@ -128,6 +137,11 @@ export class PhysicalServersService {
                     Sequelize.col("backup_physical_machine_status.status"), 
                     ), 
                     'backup_physical_machine'],
+                [Sequelize.fn(
+                    "",  
+                    Sequelize.col("zabbix_agent_status.status"), 
+                    ), 
+                    'zabbix_agent'],
                 ]},
         include:[
             {
@@ -154,11 +168,12 @@ export class PhysicalServersService {
                 association: "backup_physical_machine_status",
                 attributes: ["status"]
             },
+            {
+                association: "zabbix_agent_status",
+                attributes: ["status"]
+            },
         ]
     });
-
- 
-
         return physical_server;
     }
 

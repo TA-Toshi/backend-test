@@ -75,6 +75,11 @@ export class VirtualServersService {
                     Sequelize.col("backup_creation_mechanism_status.status"), 
                     ), 
                     'backup_creation_mechanism'],
+                [Sequelize.fn(
+                    "",  
+                    Sequelize.col("zabbix_agent_status.status"), 
+                    ), 
+                    'zabbix_agent'],
 
                 ]},
                            
@@ -102,13 +107,17 @@ export class VirtualServersService {
                 association: "backup_creation_mechanism_status",
                 attributes: ["status"]
             },
+            {
+                association: "zabbix_agent_status",
+                attributes: ["status"]
+            },
             
         ]}
         );
 
             //  Парсим number_stored_copies_vm 
             for (let vr_server in all_virtual_servers) {
-                const a = (await all_virtual_servers)[vr_server].vm_status_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
+                const a = (await all_virtual_servers)[vr_server].backup_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
                 let num: number;
                 if (a.length == 4) {
                     num = a[1] + (a[2]*a[3])
@@ -192,6 +201,11 @@ export class VirtualServersService {
                     Sequelize.col("backup_creation_mechanism_status.status"), 
                     ), 
                     'backup_creation_mechanism'],
+                [Sequelize.fn(
+                    "",  
+                    Sequelize.col("zabbix_agent_status.status"), 
+                    ), 
+                    'zabbix_agent'],
          
             ]},
             include:[
@@ -219,10 +233,14 @@ export class VirtualServersService {
                     association: "backup_creation_mechanism_status",
                     attributes: ["status"]
                 },
+                {
+                    association: "zabbix_agent_status",
+                    attributes: ["status"]
+                },
             ]
     });
     //  Парсим number_stored_copies_vm 
-    const a = (await vr_server).vm_status_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
+    const a = (await vr_server).backup_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
     let num: number;
     if (a.length == 4) {
         num = a[1] + (a[2]*a[3])
