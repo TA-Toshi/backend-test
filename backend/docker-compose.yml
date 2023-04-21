@@ -11,10 +11,12 @@ services:
       - .:/backend
       - /backend/node_modules
     ports:
-      - 5000:5000
+      - 7000:7000  
     depends_on:
       - postgres
     restart: always
+    networks:
+      - net
     
 
 
@@ -26,11 +28,17 @@ services:
     environment:
       PG_DATA: /var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "3000:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: always
+    networks:
+      - net
 
 
 volumes:
   pgdata:
+
+networks:
+  net:
+    driver: bridge  

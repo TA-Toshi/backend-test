@@ -3,7 +3,7 @@ export class create_dto_physical_servers {
     readonly server_name: string;
     readonly appointment: string;
     readonly backup_id: number;
-    readonly os_id: string;
+    readonly os_id: number;
     readonly cpu: string;
     readonly cores: number;
     readonly streams: number;
