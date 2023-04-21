@@ -1,364 +1,77 @@
 <template>
   <q-page class="row">
-    <div class="q-pa-md col">
-      <q-table title="Операционные системы" :rows="rowsOs" :columns="columns" row-key="id">
-        <template v-slot:top>
-          <q-btn label="Добавить строку" color="primary" @click="dialog = true" />
-          <q-dialog v-model="dialog">
-            <q-card>
-              <q-card-section class="row items-center q-gutter-sm">
-                <q-btn no-caps label="Open menu" color="primary">
-                  <q-menu>
-                    <q-list dense style="min-width: 100px">
-                      <q-item clickable v-close-popup="2">
-                        <q-item-section>Open...</q-item-section>
-                      </q-item>
-                      <q-item clickable v-close-popup="2">
-                        <q-item-section>New</q-item-section>
-                      </q-item>
-                      <q-separator />
-                      <q-item clickable>
-                        <q-item-section>Preferences</q-item-section>
-                        <q-item-section side>
-                          <q-icon name="keyboard_arrow_right" />
-                        </q-item-section>
+    <q-splitter v-model="splitterModel" style="width:100%;height: 100%;">
 
-                        <q-menu anchor="top end" self="top start">
-                          <q-list>
-                            <q-item v-for="n in 3" :key="n" dense clickable>
-                              <q-item-section>Submenu Label</q-item-section>
-                              <q-item-section side>
-                                <q-icon name="keyboard_arrow_right" />
-                              </q-item-section>
-                              <q-menu anchor="top end" self="top start">
-                                <q-list>
-                                  <q-item v-for="n in 3" :key="n" dense clickable v-close-popup="2">
-                                    <q-item-section>3rd level Label</q-item-section>
-                                  </q-item>
-                                </q-list>
-                              </q-menu>
-                            </q-item>
-                          </q-list>
-                        </q-menu>
+      <template v-slot:before>
+        <q-tabs v-model="tab" vertical  >
+          <q-tab :ripple="false" name="os" icon="laptop" label="Операционные системы" />
+          <q-tab :ripple="false" name="memory" icon="memory" label="Память" />
+          <q-tab :ripple="false" name="backup" icon="content_copy" label="Резервное копирование данных" />
+          <q-tab :ripple="false" name="zabbix" icon="support_agent" label="Zabbix" />
+          <q-tab :ripple="false" name="backupPhysical" icon="file_copy" label="Резервное копирование физической машины" />
+          <q-tab :ripple="false" name="vm" icon="pets" label="Виртуальная машина" />
+          <q-tab :ripple="false" name="disk_location" icon="gps_not_fixed" label="Нахождение диска" />
+          <q-tab :ripple="false" name="backup_creation_mechanism" icon="set_meal" label="Механизм создания резервной копии" />
+          <q-tab :ripple="false" name="location" icon="place" label="Нахождение" />
+          <q-tab :ripple="false" name="album" icon="album" label="Диск" />
+        </q-tabs>
+      </template>
 
-                      </q-item>
-                      <q-separator />
-                      <q-item clickable v-close-popup="2">
-                        <q-item-section>Quit</q-item-section>
-                      </q-item>
-                    </q-list>
-
-                  </q-menu>
-                </q-btn>
-
-                <q-btn no-caps label="Close dialog" color="primary" v-close-popup />
-              </q-card-section>
-            </q-card>
-          </q-dialog>
-          <q-btn class="q-ml-sm" color="primary" :disable="loading" label="Удалить строку" @click="removeRow" />
-          <q-space />
-          <q-input borderless dense debounce="300" color="primary" v-model="filter">
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </template>
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="Память" :rows="rowsMemory" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="Диск" :rows="rowsDisk" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="Резервное копирование данных" :rows="rowsBackup" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="Zabbix" :rows="rowsZabbix" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="Нахождение" :rows="rowsLocation" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="Резервное копирование физической машины" :rows="rowsPhysical" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="Виртуальная машина" :rows="rowsVm" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="Нахождение диска" :rows="rowsDiskLocation" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-table title="backup_creation_mechanism" :rows="rowsMechanism" :columns="columns" row-key="id">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              {{ props.row.id }}
-            </q-td>
-            <q-td key="status" :props="props">
-              {{ props.row.status }}
-              <q-popup-edit @update:model-value="() => { rowChange = props.rowIndex }" v-model="props.row.status"
-                v-slot="scope" buttons>
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.row.createdAt }}
-            </q-td>
-            <q-td key="updatedAt" :props="props">
-              {{ props.row.updatedAt }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-    </div>
+      <template v-slot:after>
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="os">
+            <manual-page :title="'\nОперационные\nсистемы'" :name="'os'" />
+          </q-tab-panel>
+          <q-tab-panel name="memory">
+            <manual-page :title="'Память'" :name="'memory_type'" />
+          </q-tab-panel>
+          <q-tab-panel name="backup">
+            <manual-page :title="'Резервное копирование данных'" :name="'backup'" />
+          </q-tab-panel>
+          <q-tab-panel name="zabbix">
+            <manual-page :title="'Zabbix'" :name="'zabbix_agent'" />
+          </q-tab-panel>
+          <q-tab-panel name="backupPhysical">
+            <manual-page :title="'Резервное копирование физической машины'" :name="'backup_physical_machine'" />
+          </q-tab-panel>
+          <q-tab-panel name="vm">
+            <manual-page :title="'Виртуальная машина'" :name="'vm_status'" />
+          </q-tab-panel>
+          <q-tab-panel name="disk_location">
+            <manual-page :title="'Нахождение диска'" :name="'disk_location'" />
+          </q-tab-panel>
+          <q-tab-panel name="backup_creation_mechanism">
+            <manual-page :title="'Механизм создания резервной копии'" :name="'backup_creation_mechanism'" />
+          </q-tab-panel>
+          <q-tab-panel name="location">
+            <manual-page :title="'Нахождение'" :name="'location'" />
+          </q-tab-panel>
+          <q-tab-panel name="disk">
+            <manual-page :title="'Диск'" :name="'disk'" />
+          </q-tab-panel>
+        </q-tab-panels>
+      </template>
+    </q-splitter>
   </q-page>
 </template>
 
-<style></style>
+<style>
+.q-tab__label {
+  white-space: pre-wrap;
+}
+</style>
 
 <script>
-import axios from 'axios'
+import ManualPage from './ManualPage.vue'
 export default {
   name: 'MainPage',
+  components: {
+    ManualPage
+  },
   data() {
     return {
-      columns: [
-        { name: 'id', align: 'center', label: 'Номер', field: 'id', sortable: true },
-        { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
-        { name: 'createdAt', align: 'center', label: 'Дата создания', field: 'createdAt', sortable: true },
-        { name: 'updatedAt', align: 'center', label: 'Дата редактирования', field: 'updatedAt', sortable: true },
-      ],
-      rowsOs: [],
-      rowsMemory: [],
-      rowsDisk: [],
-      rowsBackup: [],
-      rowsZabbix: [],
-      rowsLocation: [],
-      rowsPhysical: [],
-      rowsVm: [],
-      rowsDiskLocation: [],
-      rowsMechanism: [],
-      rowChange: -1,
-      dialog: false,
-      filter: ''
-    }
-  },
-  async created() {
-    axios.all([
-      axios('http://localhost:7000/manuals/all_os'),
-      axios('http://localhost:7000/manuals/all_memory_type'),
-      axios('http://localhost:7000/manuals/all_disk'),
-      axios('http://localhost:7000/manuals/all_backup'),
-      axios('http://localhost:7000/manuals/all_zabbix_agent'),
-      axios('http://localhost:7000/manuals/all_location'),
-      axios('http://localhost:7000/manuals/all_backup_physical_machine'),
-      axios('http://localhost:7000/manuals/all_vm_status'),
-      axios('http://localhost:7000/manuals/all_disk_location'),
-      axios('http://localhost:7000/manuals/all_backup_creation_mechanism'),
-    ]).then(data => {
-      this.rowsOs = data[0].data
-      this.rowsMemory = data[1].data
-      this.rowsDisk = data[2].data
-      this.rowsBackup = data[3].data
-      this.rowsZabbix = data[4].data
-      this.rowsLocation = data[5].data
-      this.rowsPhysical = data[6].data
-      this.rowsVm = data[7].data
-      this.rowsDiskLocation = data[8].data
-      this.rowsMechanism = data[9].data
-    })
-  },
-  watch: {
-    rowsOs: {
-      handler() {
-        if (this.rowChange != -1) {
-          const row = Object.assign({}, this.rowsOs[this.rowChange])
-          delete row.id
-          console.log(JSON.stringify(row))
-          axios("http://localhost:7000/manuals/os/" + this.rowsOs[this.rowChange].id, {
-            method: "put",
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            data: row
-          }).then(() => {
-            console.log(1)
-          })
-        }
-      },
-      deep: true
+      tab: 'os',
+      splitterModel:25
     }
   },
 }

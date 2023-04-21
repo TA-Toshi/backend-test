@@ -1,14 +1,14 @@
 <template>
     <q-page class="row">
         <div class="q-pa-md col">
-            <q-table title="Сервера" row-key="id" :rows="rows" :columns="columns" selection="multiple"
+            <q-table :separator="'cell'" title="Сервера" row-key="id" :rows="rows" :columns="columns" selection="multiple"
                 v-model:selected="selected"
-                @row-click="(evt, row, index) => { addRow=false; dialog = true;CurrentIndex = index; cloneCurrentRow = Object.assign({}, this.rows[this.CurrentIndex]);}">
+                @row-click="(evt, row, index) => { addRow = false; dialog = true; CurrentIndex = index; cloneCurrentRow = Object.assign({}, this.rows[this.CurrentIndex]); }">
                 <template v-slot:top>
-                    <div class="row justify-between">
+                    <div class="row justify-between col">
                         <div class="q-table__title">Сервера</div>
                         <div>
-                            <q-btn label="Добавить строку" color="primary"
+                            <q-btn class="q-mr-md" label="Добавить строку" color="primary"
                                 v-on:click="() => { dialog = true; addRow = true }" />
                             <q-btn label="Удалить строку" color="primary" v-on:click="deleteRows" />
                         </div>
@@ -16,27 +16,32 @@
                 </template>
             </q-table>
             <q-dialog v-model="dialog">
-                <q-card style="min-width: 450px">
+                <q-card class="col" style="max-width: 650px">
                     <q-card-section>
-                        <div class="text-h6">Изменение строки</div>
+                        <div class="text-h5 text-bold">{{ !addRow ? 'Изменение строки' : 'Добавление строки' }}</div>
                     </q-card-section>
                     <q-card-section v-model="cloneCurrentRow">
-                        <q-input label="Название сервера" v-model="cloneCurrentRow.server_name"></q-input>
-                        <q-input label="Нахождение" v-model="cloneCurrentRow.appointment"></q-input>
-                        <q-select outlined v-model="cloneCurrentRow.backup_id" :options="backup" label="Бэкап" />
-                        <q-select outlined v-model="cloneCurrentRow.os_id" :options="os" label="Операционная система" />
-                        <q-input label="Cpu" v-model="cloneCurrentRow.cpu"></q-input>
-                        <q-input label="Ядер" v-model="cloneCurrentRow.cores"></q-input>
-                        <q-input label="Потоков" v-model="cloneCurrentRow.streams"></q-input>
-                        <q-select outlined v-model="cloneCurrentRow.memory_type_id" :options="memory" label="Тип памяти" />
-                        <q-select outlined v-model="cloneCurrentRow.zabbix_agent_id" :options="zabbix" label="Zabbix" />
-                        <q-select outlined v-model="cloneCurrentRow.location_id" :options="location" label="Нахождение" />
-                        <q-input label="Ip" v-model="cloneCurrentRow.ip"></q-input>
-                        <q-select outlined v-model="cloneCurrentRow.disk_id" :options="disk" label="Диск" />
-                        <q-select outlined v-model="cloneCurrentRow.backup_physical_machine_id" :options="backupPhysical" label="Резервное копирование физ" />
-                        <q-input label="Vlan" v-model="cloneCurrentRow.vlan"></q-input>
-                        <q-input label="Port" v-model="cloneCurrentRow.port"></q-input>
-                        <q-input label="Комментарий" v-model="cloneCurrentRow.comment"></q-input>
+                        <q-list>
+                            <q-input filled class="q-mb-md" label="Название сервера" v-model="cloneCurrentRow.server_name"></q-input>
+                            <q-input filled class="q-mb-md" label="Нахождение" v-model="cloneCurrentRow.appointment"></q-input>
+                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup" :options="backup" label="Бэкап" />
+                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.os" :options="os" label="Операционная система" />
+                            <q-input filled class="q-mb-md" label="Cpu" v-model="cloneCurrentRow.cpu"></q-input>
+                            <q-input type="number" filled class="q-mb-md" label="Ядер" v-model="cloneCurrentRow.cores"></q-input>
+                            <q-input type="number" filled class="q-mb-md" label="Потоков" v-model="cloneCurrentRow.streams"></q-input>
+                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.memory_type" :options="memory"
+                                label="Тип памяти" />
+                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.zabbix_agent" :options="zabbix" label="Zabbix" />
+                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.location" :options="location"
+                                label="Нахождение" />
+                            <q-input filled class="q-mb-md" label="Ip" v-model="cloneCurrentRow.ip"></q-input>
+                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.disk" :options="disk" label="Диск" />
+                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup_physical_machine"
+                                :options="backupPhysical" label="Резервное копирование физ" />
+                            <q-input filled class="q-mb-md" label="Vlan" v-model="cloneCurrentRow.vlan"></q-input>
+                            <q-input filled class="q-mb-md" label="Port" v-model="cloneCurrentRow.port"></q-input>
+                            <q-input filled label="Комментарий" v-model="cloneCurrentRow.comment"></q-input>
+                        </q-list>
                     </q-card-section>
                     <q-card-actions class="text-primary">
                         <q-btn flat label="Сохранить" v-close-popup v-on:click="saveRow" />
@@ -59,17 +64,17 @@ export default {
             columns: [
                 { name: 'server_name', align: 'center', label: 'Имя сервера', field: 'server_name', sortable: true },
                 { name: 'appointment', align: 'center', label: 'Назначение', field: 'appointment', sortable: true },
-                { name: 'backup_id', align: 'center', label: 'Резервное копирование данных', field: 'backup_id', sortable: true },
-                { name: 'os_id', align: 'center', label: 'Операционная система ', field: 'os_id', sortable: true },
+                { name: 'backup', align: 'center', label: 'Резервное копирование данных', field: 'backup', sortable: true },
+                { name: 'os', align: 'center', label: 'Операционная система ', field: 'os', sortable: true },
                 { name: 'cpu', align: 'center', label: 'CPU', field: 'cpu', sortable: true },
                 { name: 'cores', align: 'center', label: 'Ядер', field: 'cores', sortable: true },
                 { name: 'streams', align: 'center', label: 'Потоков', field: 'streams', sortable: true },
-                { name: 'memory_type_id', align: 'center', label: 'Тип памяти ', field: 'memory_type_id', sortable: true },
-                { name: 'zabbix_agent_id', align: 'center', label: 'Zabbix Agent ', field: 'zabbix_agent_id', sortable: true },
-                { name: 'location_id', align: 'center', label: 'Нахождение', field: 'location_id', sortable: true },
+                { name: 'memory_type', align: 'center', label: 'Тип памяти ', field: 'memory_type', sortable: true },
+                { name: 'zabbix_agent', align: 'center', label: 'Zabbix Agent ', field: 'zabbix_agent', sortable: true },
+                { name: 'location', align: 'center', label: 'Нахождение', field: 'location', sortable: true },
                 { name: 'ip', align: 'center', label: 'IP', field: 'ip', sortable: true },
-                { name: 'disk_id', align: 'center', label: 'Диски', field: 'disk_id', sortable: true },
-                { name: 'backup_physical_machine_id', align: 'center', label: 'Резервное копирование физической машины ', field: 'backup_physical_machine_id', sortable: true },
+                { name: 'disk', align: 'center', label: 'Диски', field: 'disk', sortable: true },
+                { name: 'backup_physical_machine', align: 'center', label: 'Резервное копирование физической машины ', field: 'backup_physical_machine', sortable: true },
                 { name: 'vlan', align: 'center', label: 'VLAN', field: 'vlan', sortable: true },
                 { name: 'port', align: 'center', label: 'PORT', field: 'port', sortable: true },
                 { name: 'comment', align: 'center', label: 'Комментарий', field: 'comment', sortable: true },
@@ -83,11 +88,12 @@ export default {
             model: null,
             backup: [],
             os: [],
-            memory:[],
-            zabbix:[],
-            location:[],
-            disk:[],
-            backupPhysical:[]
+            memory: [],
+            zabbix: [],
+            location: [],
+            disk: [],
+            backupPhysical: [],
+            vm: []
         }
     },
     async created() {
@@ -99,6 +105,7 @@ export default {
             axios('http://localhost:7000/physical-servers').then(data => {
                 this.rows = data.data
                 this.rowsClone = data.data.map(object => ({ ...object }))
+                console.log(this.rows)
             })
         },
         pullManuals() {
@@ -110,6 +117,7 @@ export default {
                 axios('http://localhost:7000/manuals/all_location'),
                 axios('http://localhost:7000/manuals/all_disk'),
                 axios('http://localhost:7000/manuals/all_backup_physical_machine'),
+                axios('http://localhost:7000/manuals/all_vm_status'),
             ]).then(data => {
                 data[0].data.forEach((item) => {
                     this.backup.push({ id: item.id, label: item.status })
@@ -131,6 +139,9 @@ export default {
                 })
                 data[6].data.forEach((item) => {
                     this.backupPhysical.push({ id: item.id, label: item.status })
+                })
+                data[7].data.forEach((item) => {
+                    this.vm.push({ id: item.id, label: item.status })
                 })
             })
         },
@@ -169,6 +180,7 @@ export default {
                     console.log("Данные обновлены")
                 })
             }
+            this.cloneCurrentRow = {}
         },
         deleteRows() {
             if (this.selected.length != 0) {
