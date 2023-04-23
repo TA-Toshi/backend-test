@@ -1,0 +1,57 @@
+version: "3.0"
+
+services: 
+  main:
+    container_name: main
+    build:
+      context: .
+    env_file:
+      - /backend/.env
+    volumes:
+      - ./backend:/backend
+      - /backend/node_modules
+    ports:
+      - 7000:7000  
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - net
+    
+
+
+  postgres:
+    container_name: postgres
+    image: postgres:14
+    env_file:
+      -  /backend/.env
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - "3000:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - net
+
+  web:
+    container_name: web
+    build:
+      context: .
+    volumes:
+      - ./frontend/frontend:/frontend
+      - /frontend/frontend/node_modules
+    ports:
+      - 8080:8080  
+    restart: always
+    networks:
+      - net    
+
+
+volumes:
+  pgdata:
+
+networks:
+  net:
+    driver: bridge  

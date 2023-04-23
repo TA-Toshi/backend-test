@@ -1,6 +1,8 @@
 FROM node:18.13.0-alpine
 
-WORKDIR /backend
+WORKDIR /frontend
+
+EXPOSE 8080
 
 COPY ./package*.json ./
 
@@ -8,6 +10,6 @@ RUN npm install
 
 COPY . .
 
-COPY  ./dist  ./dist
+CMD ["npm", "run" , "serve"]
  
-CMD  ["npm", "run", "start:dev"]
+
