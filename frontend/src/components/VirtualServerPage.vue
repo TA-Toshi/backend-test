@@ -26,11 +26,19 @@
                         <q-input filled class="q-mb-md" label="Окружение" v-model="cloneCurrentRow.environment"></q-input>
                         <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup_id" :options="backup" label="Бэкап" />
                         <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.os_id" :options="os" label="Операционная система" />
+                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.vm_status_id" :options="vm" label="Статус виртуальной машины" />
                         <q-input filled class="q-mb-md" label="Cpu" v-model="cloneCurrentRow.cpu"></q-input>
+                        <q-input filled class="q-mb-md" label="Требуемая дата отключения" v-model="cloneCurrentRow.required_date_vm_shutdown"></q-input>
+                        <q-input filled class="q-mb-md" label="Автоматическое внутренее доменное имя" v-model="cloneCurrentRow.automatic_internal_domain_name"></q-input>
+                        <q-input filled class="q-mb-md" label="Дополнительное внутренее доменное имя" v-model="cloneCurrentRow.additional_internal_domain_name"></q-input>
+                        <q-input filled class="q-mb-md" label="Доменное имя" v-model="cloneCurrentRow.domain_names"></q-input>
+                        <q-input filled class="q-mb-md" label="Память,мб" v-model="cloneCurrentRow.mb"></q-input>
+                        <q-input filled class="q-mb-md" label="Оперативная память" v-model="cloneCurrentRow.ram"></q-input>
+                        <q-input filled class="q-mb-md" label="Диск,гб" v-model="cloneCurrentRow.disk_gb"></q-input>
                         <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.zabbix_agent_id" :options="zabbix" label="Zabbix" />
                         <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.location_id" :options="location" label="Нахождение" />
                         <q-input filled class="q-mb-md" label="Ip" v-model="cloneCurrentRow.ip"></q-input>
-                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.disk_id" :options="disk" label="Диск" />
+                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.disk_location_id" :options="disk" label="Нахождение диска" />
                         <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup_physical_machine_id" :options="backupPhysical" label="Резервное копирование физ" />
                         <q-input filled class="q-mb-md" label="Vlan" v-model="cloneCurrentRow.vlan"></q-input>
                         <q-input filled class="q-mb-md" label="Port" v-model="cloneCurrentRow.port"></q-input>
@@ -66,7 +74,7 @@ export default {
                 { name: 'required_date_vm_shutdown', align: 'center', label: 'Требуемая дата отключения виртуальной машины', field: 'required_date_vm_shutdown', sortable: true },
                 { name: 'automatic_internal_domain_name', align: 'center', label: 'Автоматическое внутреннее доменное имя', field: 'automatic_internal_domain_name', sortable: true },
                 { name: 'additional_internal_domain_name', align: 'center', label: 'Дополнительное внутренее доменное имя', field: 'additional_internal_domain_name', sortable: true },
-                { name: 'domain_names', align: 'center', label: 'dДоменные имена', field: 'domain_names', sortable: true },
+                { name: 'domain_names', align: 'center', label: 'Доменные имена', field: 'domain_names', sortable: true },
                 { name: 'cpu', align: 'center', label: 'CPU', field: 'cpu', sortable: true },
                 { name: 'mb', align: 'center', label: 'Память,мб', field: 'mb', sortable: true },
                 { name: 'ram', align: 'center', label: 'RAM', field: 'ram', sortable: true },
@@ -94,7 +102,8 @@ export default {
             zabbix: [],
             location: [],
             disk: [],
-            backupPhysical: []
+            backupPhysical: [],
+            vm:[]
         }
     },
     async created() {
@@ -116,8 +125,9 @@ export default {
                 axios('http://localhost:7000/manuals/all_memory_type'),
                 axios('http://localhost:7000/manuals/all_zabbix_agent'),
                 axios('http://localhost:7000/manuals/all_location'),
-                axios('http://localhost:7000/manuals/all_disk'),
+                axios('http://localhost:7000/manuals/all_disk_location'),
                 axios('http://localhost:7000/manuals/all_backup_physical_machine'),
+                axios('http://localhost:7000/manuals/all_vm_status'),
             ]).then(data => {
                 data[0].data.forEach((item) => {
                     this.backup.push({ id: item.id, label: item.status })
@@ -139,20 +149,23 @@ export default {
                 })
                 data[6].data.forEach((item) => {
                     this.backupPhysical.push({ id: item.id, label: item.status })
+                }),
+                data[7].data.forEach((item) => {
+                    this.vm.push({ id: item.id, label: item.status })
                 })
             })
         },
         saveRow() {
-            this.cloneCurrentRow.backup_id = this.cloneCurrentRow.backup_id.id ? this.cloneCurrentRow.backup_id.id : this.cloneCurrentRow.backup_id
-            this.cloneCurrentRow.os_id = this.cloneCurrentRow.os_id.id ? this.cloneCurrentRow.os_id.id : this.cloneCurrentRow.os_id
-            this.cloneCurrentRow.memory_type_id = this.cloneCurrentRow.memory_type_id.id ? this.cloneCurrentRow.memory_type_id.id : this.cloneCurrentRow.memory_type_id
-            this.cloneCurrentRow.zabbix_agent_id = this.cloneCurrentRow.zabbix_agent_id.id ? this.cloneCurrentRow.zabbix_agent_id.id : this.cloneCurrentRow.zabbix_agent_id
-            this.cloneCurrentRow.location_id = this.cloneCurrentRow.location_id.id ? this.cloneCurrentRow.location_id.id : this.cloneCurrentRow.location_id
-            this.cloneCurrentRow.disk_id = this.cloneCurrentRow.disk_id.id ? this.cloneCurrentRow.disk_id.id : this.cloneCurrentRow.disk_id
-            this.cloneCurrentRow.backup_physical_machine_id = this.cloneCurrentRow.backup_physical_machine_id.id ? this.cloneCurrentRow.backup_physical_machine_id.id : this.cloneCurrentRow.backup_physical_machine_id
+            this.cloneCurrentRow.backup_id = this.cloneCurrentRow.backup_id?.id ? this.cloneCurrentRow.backup_id.id : this.cloneCurrentRow.backup_id
+            this.cloneCurrentRow.os_id = this.cloneCurrentRow.os_id?.id ? this.cloneCurrentRow.os_id.id : this.cloneCurrentRow.os_id
+            this.cloneCurrentRow.memory_type_id = this.cloneCurrentRow.memory_type_id?.id ? this.cloneCurrentRow.memory_type_id.id : this.cloneCurrentRow.memory_type_id
+            this.cloneCurrentRow.zabbix_agent_id = this.cloneCurrentRow.zabbix_agent_id?.id ? this.cloneCurrentRow.zabbix_agent_id.id : this.cloneCurrentRow.zabbix_agent_id
+            this.cloneCurrentRow.location_id = this.cloneCurrentRow.location_id?.id ? this.cloneCurrentRow.location_id.id : this.cloneCurrentRow.location_id
+            this.cloneCurrentRow.disk_id = this.cloneCurrentRow.disk_id?.id ? this.cloneCurrentRow.disk_id.id : this.cloneCurrentRow.disk_id
+            this.cloneCurrentRow.backup_physical_machine_id = this.cloneCurrentRow.backup_physical_machine_id?.id ? this.cloneCurrentRow.backup_physical_machine_id.id : this.cloneCurrentRow.backup_physical_machine_id
             if (this.addRow) {
                 delete this.cloneCurrentRow.id
-                axios("http://localhost:7000/physical-servers", {
+                axios("http://localhost:7000/virtual-servers", {
                     method: "post",
                     headers: {
                         'Content-Type': 'application/json'
@@ -167,7 +180,7 @@ export default {
             else {
                 this.rows[this.CurrentIndex] = Object.assign({}, this.cloneCurrentRow)
                 delete this.cloneCurrentRow.id
-                axios("http://localhost:7000/physical-servers/" + this.rows[this.CurrentIndex].id, {
+                axios("http://localhost:7000/virtual-servers/" + this.rows[this.CurrentIndex].id, {
                     method: "put",
                     headers: {
                         'Content-Type': 'application/json'
@@ -183,7 +196,7 @@ export default {
             if (this.selected.length != 0) {
                 const axions = []
                 this.selected.forEach((item) => {
-                    axions.push(axios("http://localhost:7000/physical-servers/" + item.id, {
+                    axions.push(axios("http://localhost:7000/virtual-servers/" + item.id, {
                         method: "delete",
                         headers: {
                             'Content-Type': 'application/json'

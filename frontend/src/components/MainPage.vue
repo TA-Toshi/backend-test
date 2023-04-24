@@ -13,7 +13,7 @@
           <q-tab :ripple="false" name="disk_location" icon="gps_not_fixed" label="Нахождение диска" />
           <q-tab :ripple="false" name="backup_creation_mechanism" icon="set_meal" label="Механизм создания резервной копии" />
           <q-tab :ripple="false" name="location" icon="place" label="Нахождение" />
-          <q-tab :ripple="false" name="album" icon="album" label="Диск" />
+          <q-tab :ripple="false" name="disk" icon="album" label="Диск" />
         </q-tabs>
       </template>
 
