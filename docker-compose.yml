@@ -4,7 +4,8 @@ services:
   main:
     container_name: main
     build:
-      context: .
+      context: ./backend
+      dockerfile: Dockerfile
     env_file:
       - /backend/.env
     volumes:
@@ -38,10 +39,11 @@ services:
   web:
     container_name: web
     build:
-      context: .
+      context: ./frontend
+      dockerfile: Dockerfile
     volumes:
-      - ./frontend/frontend:/frontend
-      - /frontend/frontend/node_modules
+      - ./frontend:/frontend
+      - /frontend/node_modules
     ports:
       - 8080:8080  
     restart: always

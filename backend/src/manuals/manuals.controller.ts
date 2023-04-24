@@ -7,7 +7,7 @@ export class ManualsController {
 
     constructor(private manuals_service: ManualsService) {}
 
-    // os
+
     @Post('create_os')
     create_os(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.os_status_create(create_dto_manuals);
@@ -33,7 +33,7 @@ export class ManualsController {
         return this.manuals_service.os_status_update(create_dto_manuals, id)
     }
 
-    // memory_type
+
     @Post('create_memory_type')
     create_memory_type(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.memory_type_status_create(create_dto_manuals);
@@ -59,7 +59,7 @@ export class ManualsController {
         return this.manuals_service.memory_type_status_update(create_dto_manuals, id)
     }
 
-    // disk
+
     @Post('create_disk')
     create_disk(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.disk_status_create(create_dto_manuals);
@@ -85,7 +85,7 @@ export class ManualsController {
         return this.manuals_service.disk_status_update(create_dto_manuals, id)
     }
 
-    // backup 
+
     @Post('create_backup')
     create_backup(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.backup_status_create(create_dto_manuals);
@@ -111,7 +111,7 @@ export class ManualsController {
         return this.manuals_service.backup_status_update(create_dto_manuals, id)
     }
 
-    // zabbix_agent
+
     @Post('create_zabbix_agent')
     create_zabbix_agent(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.zabbix_agent_status_create(create_dto_manuals);
@@ -137,7 +137,7 @@ export class ManualsController {
         return this.manuals_service.zabbix_agent_status_update(create_dto_manuals, id)
     }
 
-    // location
+
     @Post('create_location')
     create_location(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.location_status_create(create_dto_manuals);
@@ -163,7 +163,6 @@ export class ManualsController {
         return this.manuals_service.location_status_update(create_dto_manuals, id)
     }
 
-    // backup_physical_machine
     @Post('create_backup_physical_machine')
     create_backup_physical_machine(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.backup_physical_machine_status_create(create_dto_manuals);
@@ -189,7 +188,7 @@ export class ManualsController {
         return this.manuals_service.backup_physical_machine_status_update(create_dto_manuals, id)
     }
 
-    // vm_status
+
     @Post('create_vm_status')
     create_vm_status(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.vm_status_status_create(create_dto_manuals);
@@ -215,7 +214,7 @@ export class ManualsController {
         return this.manuals_service.vm_status_status_update(create_dto_manuals, id)
     }
 
-    // disk_location
+
     @Post('create_disk_location')
     create_disk_location(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.disk_location_status_create(create_dto_manuals);
@@ -241,7 +240,7 @@ export class ManualsController {
         return this.manuals_service.disk_location_status_update(create_dto_manuals, id)
     }
 
-    // backup_creation_mechanism
+
     @Post('create_backup_creation_mechanism')
     create_backup_creation_mechanism(@Body() create_dto_manuals: create_dto_manuals) {
         return this.manuals_service.backup_creation_mechanism_status_create(create_dto_manuals);

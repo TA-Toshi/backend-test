@@ -5,7 +5,6 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { physical_servers } from 'src/physical_servers/physical_servers.model';
 import { disk, memory_type, os, backup, zabbix_agent, location, backup_physical_machine, vm_status, disk_location, backup_creation_mechanism } from './manuals.model';
 import { virtual_servers } from 'src/virtual_servers/virtual_servers.model';
-// import { PhysicalServersService } from 'src/physical_servers/physical_servers.service';
 
 @Module({
   controllers: [ManualsController],
@@ -26,8 +25,5 @@ import { virtual_servers } from 'src/virtual_servers/virtual_servers.model';
       virtual_servers,
     ]),
   ],
-  // exports: [
-  //   PhysicalServersService,
-  // ]
 })
 export class ManualsModule {}

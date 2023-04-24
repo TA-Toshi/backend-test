@@ -47,7 +47,6 @@ export class ManualsService {
         return os; 
     }
 
-    // memory_type
     async memory_type_status_create(dto: create_dto_manuals) {
         const memory_type = await this.memory_type_repository.create(dto);
         return memory_type;
@@ -73,7 +72,6 @@ export class ManualsService {
         return memory_type; 
     }
 
-    // disk
     async disk_status_create(dto: create_dto_manuals) {
         const disk = await this.disk_repository.create(dto);
         return disk;
@@ -99,7 +97,6 @@ export class ManualsService {
         return disk; 
     }
 
-    // backup
     async backup_status_create(dto: create_dto_manuals) {
         const backup = await this.backup_repository.create(dto);
         return backup;
@@ -125,7 +122,6 @@ export class ManualsService {
         return backup; 
     }
 
-    // zabbix_agent
     async zabbix_agent_status_create(dto: create_dto_manuals) {
         const zabbix_agent = await this.zabbix_agent_repository.create(dto);
         return zabbix_agent;
@@ -151,7 +147,6 @@ export class ManualsService {
         return zabbix_agent; 
     }
 
-    // location
     async location_status_create(dto: create_dto_manuals) {
         const location = await this.location_repository.create(dto);
         return location;
@@ -177,7 +172,6 @@ export class ManualsService {
         return location; 
     }
 
-    // backup_physical_machine
     async backup_physical_machine_status_create(dto: create_dto_manuals) {
         const backup_physical_machine = await this.backup_physical_machine_repository.create(dto);
         return backup_physical_machine;
@@ -203,7 +197,6 @@ export class ManualsService {
         return backup_physical_machine; 
     }
 
-    // vm_status
     async vm_status_status_create(dto: create_dto_manuals) {
         const vm_status = await this.vm_status_repository.create(dto);
         return vm_status;
@@ -229,7 +222,6 @@ export class ManualsService {
         return vm_status; 
     }
 
-    // disk_location
     async disk_location_status_create(dto: create_dto_manuals) {
         const disk_location = await this.disk_location_repository.create(dto);
         return disk_location;
@@ -255,7 +247,6 @@ export class ManualsService {
         return disk_location; 
     }
 
-    // backup_creation_mechanism
     async backup_creation_mechanism_status_create(dto: create_dto_manuals) {
         const backup_creation_mechanism = await this.backup_creation_mechanism_repository.create(dto);
         return backup_creation_mechanism;

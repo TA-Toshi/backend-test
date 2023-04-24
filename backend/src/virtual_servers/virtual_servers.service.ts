@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { create_dto_virtual_servers } from './dto/create_virtual_servers.dto';
 import { Sequelize } from 'sequelize-typescript';
 
+
 @Injectable()
 export class VirtualServersService {
 
@@ -16,8 +17,7 @@ export class VirtualServersService {
     async virtual_servers_get_all() {
         const all_virtual_servers = await this.virtual_servers_repository.findAll({
             where:{},
-            // number_stored_copies_vm
-            // maximum_storage_size_gb
+         
             attributes: 
                 {include:[
                     [Sequelize.fn(
@@ -115,7 +115,7 @@ export class VirtualServersService {
         ]}
         );
 
-            //  Парсим number_stored_copies_vm 
+
             for (let vr_server in all_virtual_servers) {
                 const a = (await all_virtual_servers)[vr_server].backup_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
                 let num: number;
@@ -239,7 +239,7 @@ export class VirtualServersService {
                 },
             ]
     });
-    //  Парсим number_stored_copies_vm 
+ 
     const a = (await vr_server).backup_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
     let num: number;
     if (a.length == 4) {
@@ -251,7 +251,7 @@ export class VirtualServersService {
 
     (await vr_server).number_stored_copies_vm = num
 
-    // maximum_storage_size_gb
+
     let su:number;
     su = num + (await vr_server).disk_gb;
     (await vr_server).maximum_storage_size_gb = su
