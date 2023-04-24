@@ -30,56 +30,56 @@ export class physical_servers extends Model<physical_servers, physical_servers_a
     @Column({type: DataType.STRING, allowNull: false})
     server_name: string;
 
-    @Column({type: DataType.STRING, allowNull: false})
+    @Column({type: DataType.STRING, allowNull: true})
     appointment: string;
 
     @ForeignKey(() => backup)
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     backup_id: number
 
     @ForeignKey(() => os)
     @Column({type: DataType.INTEGER})
     os_id: number;
 
-    @Column({type: DataType.STRING, allowNull: false})
+    @Column({type: DataType.STRING, allowNull: true})
     cpu: string; 
 
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     cores: number;
 
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     streams: number;
 
     @ForeignKey(() => memory_type)
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     memory_type_id: number; 
     
     @ForeignKey(() => zabbix_agent)
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     zabbix_agent_id: number; 
 
     @ForeignKey(() => location)
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     location_id: number; 
 
-    @Column({type: DataType.CHAR, allowNull: false})
+    @Column({type: DataType.CHAR, allowNull: true})
     ip: any;
     
     @ForeignKey(() => disk)
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     disk_id: number; 
 
     @ForeignKey(() => backup_physical_machine)
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     backup_physical_machine_id: number;
 
-    @Column({type: DataType.CHAR, allowNull: false})
+    @Column({type: DataType.CHAR, allowNull: true})
     vlan: any;
 
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.INTEGER, allowNull: true})
     port: number;
 
-    @Column({type: DataType.STRING, allowNull: false})
+    @Column({type: DataType.STRING, allowNull: true})
     comment: string; 
 
     
