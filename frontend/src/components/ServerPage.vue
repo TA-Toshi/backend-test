@@ -17,36 +17,66 @@
             </q-table>
             <q-dialog v-model="dialog">
                 <q-card class="col" style="max-width: 650px">
-                    <q-card-section>
-                        <div class="text-h5 text-bold">{{ !addRow ? 'Изменение строки' : 'Добавление строки' }}</div>
-                    </q-card-section>
-                    <q-card-section v-model="cloneCurrentRow">
-                        <q-list>
-                            <q-input filled class="q-mb-md" label="Название сервера" v-model="cloneCurrentRow.server_name"></q-input>
-                            <q-input filled class="q-mb-md" label="Нахождение" v-model="cloneCurrentRow.appointment"></q-input>
-                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup" :options="backup" label="Бэкап" />
-                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.os" :options="os" label="Операционная система" />
-                            <q-input filled class="q-mb-md" label="Cpu" v-model="cloneCurrentRow.cpu"></q-input>
-                            <q-input type="number" filled class="q-mb-md" label="Ядер" v-model="cloneCurrentRow.cores"></q-input>
-                            <q-input type="number" filled class="q-mb-md" label="Потоков" v-model="cloneCurrentRow.streams"></q-input>
-                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.memory_type" :options="memory"
-                                label="Тип памяти" />
-                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.zabbix_agent" :options="zabbix" label="Zabbix" />
-                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.location" :options="location"
-                                label="Нахождение" />
-                            <q-input filled class="q-mb-md" label="Ip" v-model="cloneCurrentRow.ip"></q-input>
-                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.disk" :options="disk" label="Диск" />
-                            <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup_physical_machine"
-                                :options="backupPhysical" label="Резервное копирование физ" />
-                            <q-input filled class="q-mb-md" label="Vlan" v-model="cloneCurrentRow.vlan"></q-input>
-                            <q-input filled class="q-mb-md" label="Port" v-model="cloneCurrentRow.port"></q-input>
-                            <q-input filled label="Комментарий" v-model="cloneCurrentRow.comment"></q-input>
-                        </q-list>
-                    </q-card-section>
-                    <q-card-actions class="text-primary">
-                        <q-btn flat label="Сохранить" v-close-popup v-on:click="saveRow" />
-                        <q-btn flat label="Отмена" v-close-popup v-on:click="cancelSave" />
-                    </q-card-actions>
+                    <q-form @submit="saveRow" @reset="cancelSave">
+                        <q-card-section class="row">
+                            <div class="text-h5 text-bold col">{{ !addRow ? 'Изменение строки' : 'Добавление строки' }}
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <q-btn color="primary" class="col q-mr-md" label="Сохранить" 
+                                        type="submit" />
+                                    <q-btn color="primary" class="col" label="Отмена" 
+                                        type="reset"/>
+                                </div>
+                            </div>
+                        </q-card-section>
+                        <q-card-section v-model="cloneCurrentRow">
+                            <q-list>
+                                <q-input filled class="q-mb-md" label="Название сервера"
+                                    v-model="cloneCurrentRow.server_name" :rules="[ val => val && val.length > 0 || 'Это поле обязательно для заполнения']"></q-input>
+                                <q-input filled class="q-mb-md" label="Нахождение"
+                                    v-model="cloneCurrentRow.appointment"></q-input>
+                                <div class="row">
+                                    <q-select class="q-mb-md col q-mr-md" outlined v-model="cloneCurrentRow.backup"
+                                        :options="backup" label="Бэкап" />
+                                    <q-select class="q-mb-md col" outlined v-model="cloneCurrentRow.os" :options="os"
+                                        label="Операционная система" />
+                                </div>
+                                <div class="row">
+                                    <q-input type="number" filled class="q-mb-md col q-mr-md" label="Cpu"
+                                        v-model="cloneCurrentRow.cpu"></q-input>
+                                    <q-input type="number" filled class="q-mb-md col q-mr-md" label="Ядер"
+                                        v-model="cloneCurrentRow.cores"></q-input>
+                                    <q-input type="number" filled class="q-mb-md col" label="Потоков"
+                                        v-model="cloneCurrentRow.streams"></q-input>
+                                </div>
+                                <div class="row">
+                                    <q-select class="q-mb-md col q-mr-md" outlined v-model="cloneCurrentRow.memory_type"
+                                        :options="memory" label="Тип памяти" />
+                                    <q-select class="q-mb-md col" outlined v-model="cloneCurrentRow.zabbix_agent"
+                                        :options="zabbix" label="Zabbix" />
+                                </div>
+                                <div class="row">
+                                    <q-select class="q-mb-md col q-mr-md" outlined v-model="cloneCurrentRow.location"
+                                        :options="location" label="Нахождение" />
+                                    <q-select class="q-mb-md col" outlined v-model="cloneCurrentRow.disk" :options="disk"
+                                        label="Диск" />
+                                </div>
+                                <q-input filled class="q-mb-md" label="Ip" mask="###.###.###.###"
+                                    v-model="cloneCurrentRow.ip"></q-input>
+                                <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup_physical_machine"
+                                    :options="backupPhysical" label="Резервное копирование физ" />
+                                <div class="row">
+                                    <q-input mask="###.###.###.###/##" filled class="q-mb-md col q-mr-md" label="Vlan"
+                                        v-model="cloneCurrentRow.vlan"></q-input>
+                                    <q-input type="number" filled class="q-mb-md col" label="Port"
+                                        v-model="cloneCurrentRow.port"></q-input>
+                                </div>
+                                <q-input type="textarea" filled label="Комментарий"
+                                    v-model="cloneCurrentRow.comment"></q-input>
+                            </q-list>
+                        </q-card-section>
+                    </q-form>
                 </q-card>
             </q-dialog>
         </div>
@@ -105,7 +135,6 @@ export default {
             axios('http://localhost:7000/physical-servers').then(data => {
                 this.rows = data.data
                 this.rowsClone = data.data.map(object => ({ ...object }))
-                console.log(this.rows)
             })
         },
         pullManuals() {
@@ -146,13 +175,13 @@ export default {
             })
         },
         saveRow() {
-            this.cloneCurrentRow.backup_id = this.cloneCurrentRow.backup_id.id ? this.cloneCurrentRow.backup_id.id : this.cloneCurrentRow.backup_id
-            this.cloneCurrentRow.os_id = this.cloneCurrentRow.os_id.id ? this.cloneCurrentRow.os_id.id : this.cloneCurrentRow.os_id
-            this.cloneCurrentRow.memory_type_id = this.cloneCurrentRow.memory_type_id.id ? this.cloneCurrentRow.memory_type_id.id : this.cloneCurrentRow.memory_type_id
-            this.cloneCurrentRow.zabbix_agent_id = this.cloneCurrentRow.zabbix_agent_id.id ? this.cloneCurrentRow.zabbix_agent_id.id : this.cloneCurrentRow.zabbix_agent_id
-            this.cloneCurrentRow.location_id = this.cloneCurrentRow.location_id.id ? this.cloneCurrentRow.location_id.id : this.cloneCurrentRow.location_id
-            this.cloneCurrentRow.disk_id = this.cloneCurrentRow.disk_id.id ? this.cloneCurrentRow.disk_id.id : this.cloneCurrentRow.disk_id
-            this.cloneCurrentRow.backup_physical_machine_id = this.cloneCurrentRow.backup_physical_machine_id.id ? this.cloneCurrentRow.backup_physical_machine_id.id : this.cloneCurrentRow.backup_physical_machine_id
+            this.cloneCurrentRow.backup_id = this.cloneCurrentRow.backup?.id ? this.cloneCurrentRow.backup.id : this.cloneCurrentRow.backup_id
+            this.cloneCurrentRow.os_id = this.cloneCurrentRow.os?.id ? this.cloneCurrentRow.os.id : this.cloneCurrentRow.os_id
+            this.cloneCurrentRow.memory_type_id = this.cloneCurrentRow.memory_type?.id ? this.cloneCurrentRow.memory_type.id : this.cloneCurrentRow.memory_type_id
+            this.cloneCurrentRow.zabbix_agent_id = this.cloneCurrentRow.zabbix_agent?.id ? this.cloneCurrentRow.zabbix_agent.id : this.cloneCurrentRow.zabbix_agent_id
+            this.cloneCurrentRow.location_id = this.cloneCurrentRow.location?.id ? this.cloneCurrentRow.location.id : this.cloneCurrentRow.location_id
+            this.cloneCurrentRow.disk_id = this.cloneCurrentRow.disk?.id ? this.cloneCurrentRow.disk.id : this.cloneCurrentRow.disk_id
+            this.cloneCurrentRow.backup_physical_machine_id = this.cloneCurrentRow.backup_physical_machine?.id ? this.cloneCurrentRow.backup_physical_machine.id : this.cloneCurrentRow.backup_physical_machine_id
             if (this.addRow) {
                 delete this.cloneCurrentRow.id
                 axios("http://localhost:7000/physical-servers", {
@@ -178,9 +207,11 @@ export default {
                     data: this.cloneCurrentRow
                 }).then(() => {
                     console.log("Данные обновлены")
+                    this.pullServers()
                 })
             }
             this.cloneCurrentRow = {}
+            this.dialog=false
         },
         deleteRows() {
             if (this.selected.length != 0) {
@@ -199,6 +230,7 @@ export default {
         },
         cancelSave() {
             this.cloneCurrentRow = {}
+            this.dialog=false
         }
     },
 }
