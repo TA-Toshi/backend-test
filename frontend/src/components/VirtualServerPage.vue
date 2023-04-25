@@ -1,53 +1,98 @@
 <template>
     <q-page class="row">
         <div class="q-pa-md col">
-            <q-table :separator="'cell'" title="Виртуальные сервера" row-key="id" :rows="rows" :columns="columns" selection="multiple"
-                v-model:selected="selected"
+            <q-table :separator="'cell'" title="Виртуальные сервера" row-key="id" :rows="rows" :columns="columns"
+                selection="multiple" v-model:selected="selected"
                 @row-click="(evt, row, index) => { addRow = false; dialog = true; CurrentIndex = index; cloneCurrentRow = Object.assign({}, this.rows[this.CurrentIndex]); }">
                 <template v-slot:top>
                     <div class="row justify-between col">
                         <div class="q-table__title">Виртуальные сервера</div>
                         <div>
-                            <q-btn class="q-mr-md" label="Добавить строку" color="primary"
+                            <q-btn class="q-mr-md" label="Добавить" color="primary"
                                 v-on:click="() => { dialog = true; addRow = true }" />
-                            <q-btn label="Удалить строку" color="primary" v-on:click="deleteRows" />
+                            <q-btn label="Удалить" color="primary" v-on:click="deleteRows" />
                         </div>
                     </div>
                 </template>
             </q-table>
-            <q-dialog v-model="dialog">
+            <q-dialog v-model="dialog" @hide="cancelSave">
                 <q-card class="col" style="max-width: 650px">
-                    <q-card-section>
-                        <div class="text-h5 text-bold">{{ !addRow?'Изменение строки':'Добавление строки' }}</div>
-                    </q-card-section>
-                    <q-card-section v-model="cloneCurrentRow">
-                        <q-input filled class="q-mb-md" label="Клиент" v-model="cloneCurrentRow.client"></q-input>
-                        <q-input filled class="q-mb-md" label="Сервис" v-model="cloneCurrentRow.service"></q-input>
-                        <q-input filled class="q-mb-md" label="Окружение" v-model="cloneCurrentRow.environment"></q-input>
-                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup_id" :options="backup" label="Бэкап" />
-                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.os_id" :options="os" label="Операционная система" />
-                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.vm_status_id" :options="vm" label="Статус виртуальной машины" />
-                        <q-input filled class="q-mb-md" label="Cpu" v-model="cloneCurrentRow.cpu"></q-input>
-                        <q-input filled class="q-mb-md" label="Требуемая дата отключения" v-model="cloneCurrentRow.required_date_vm_shutdown"></q-input>
-                        <q-input filled class="q-mb-md" label="Автоматическое внутренее доменное имя" v-model="cloneCurrentRow.automatic_internal_domain_name"></q-input>
-                        <q-input filled class="q-mb-md" label="Дополнительное внутренее доменное имя" v-model="cloneCurrentRow.additional_internal_domain_name"></q-input>
-                        <q-input filled class="q-mb-md" label="Доменное имя" v-model="cloneCurrentRow.domain_names"></q-input>
-                        <q-input filled class="q-mb-md" label="Память,мб" v-model="cloneCurrentRow.mb"></q-input>
-                        <q-input filled class="q-mb-md" label="Оперативная память" v-model="cloneCurrentRow.ram"></q-input>
-                        <q-input filled class="q-mb-md" label="Диск,гб" v-model="cloneCurrentRow.disk_gb"></q-input>
-                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.zabbix_agent_id" :options="zabbix" label="Zabbix" />
-                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.location_id" :options="location" label="Нахождение" />
-                        <q-input filled class="q-mb-md" label="Ip" v-model="cloneCurrentRow.ip"></q-input>
-                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.disk_location_id" :options="disk" label="Нахождение диска" />
-                        <q-select class="q-mb-md" outlined v-model="cloneCurrentRow.backup_physical_machine_id" :options="backupPhysical" label="Резервное копирование физ" />
-                        <q-input filled class="q-mb-md" label="Vlan" v-model="cloneCurrentRow.vlan"></q-input>
-                        <q-input filled class="q-mb-md" label="Port" v-model="cloneCurrentRow.port"></q-input>
-                        <q-input filled class="q-mb-md" label="Комментарий" v-model="cloneCurrentRow.comment"></q-input>
-                    </q-card-section>
-                    <q-card-actions class="text-primary">
-                        <q-btn flat label="Сохранить" v-close-popup v-on:click="saveRow" />
-                        <q-btn flat label="Отмена" v-close-popup v-on:click="cancelSave" />
-                    </q-card-actions>
+                    <q-form @submit="saveRow" @reset="cancelSave">
+                        <q-card-section class="row">
+                            <div class="text-h5 text-bold col">{{ !addRow ? 'Изменение строки' : 'Добавление строки' }}
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <q-btn color="primary" class="col q-mr-md" label="Сохранить" type="submit" />
+                                    <q-btn color="primary" class="col" label="Отмена" type="reset" />
+                                </div>
+                            </div>
+                        </q-card-section>
+                        <q-card-section v-model="cloneCurrentRow">
+                            <q-input filled class="q-mb-md" label="Клиент*" v-model="cloneCurrentRow.client"
+                                :rules="[val => val && val.length > 0 || 'Это поле обязательно для заполнения']"></q-input>
+                            <q-input filled class="q-mb-md" :rules="[val2 => val2 && val2.length > 0 || 'Это поле обязательно для заполнения']" label="Сервис*" v-model="cloneCurrentRow.service"></q-input>
+                            <q-input filled class="q-mb-md" :rules="[val3 => val3 && val3.length > 0 || 'Это поле обязательно для заполнения']" label="Окружение*"
+                                v-model="cloneCurrentRow.environment"></q-input>
+                            <div class="row">
+                                <q-select class="q-mb-md col q-mr-md" outlined v-model="cloneCurrentRow.backup"
+                                    :options="backup" label="Бэкап" />
+                                <q-select class="q-mb-md col" outlined v-model="cloneCurrentRow.os" :options="os"
+                                    label="Операционная система" />
+                            </div>
+                            <div class="row">
+                                <q-select class="q-mb-md col q-mr-md" outlined v-model="cloneCurrentRow.vm_status"
+                                    :options="vm" label="Статус виртуальной машины" />
+                                <q-select class="q-mb-md col" outlined v-model="cloneCurrentRow.zabbix_agent"
+                                    :options="zabbix" label="Zabbix" />
+                            </div>
+                            <div class="row">
+                                <q-input filled type="number" class="q-mb-md col q-mr-md" label="Cpu"
+                                    v-model="cloneCurrentRow.cpu"></q-input>
+                                <q-input filled type="number" class="q-mb-md col" label="Оперативная память"
+                                    v-model="cloneCurrentRow.ram"></q-input>
+                            </div>
+                            <div class="row">
+                                <q-input filled type="number" class="q-mb-md col q-mr-md" label="Память,мб"
+                                    v-model="cloneCurrentRow.mb"></q-input>
+                                <q-input filled type="number" class="q-mb-md col" label="Диск,гб"
+                                    v-model="cloneCurrentRow.disk_gb"></q-input>
+                            </div>
+                            <div class="row">
+                                <q-select class="q-mb-md col q-mr-md" outlined v-model="cloneCurrentRow.location"
+                                    :options="location" label="Нахождение" />
+                                <q-select class="q-mb-md col" outlined v-model="cloneCurrentRow.disk_location"
+                                    :options="disk" label="Нахождение диска" />
+                            </div>
+                            <q-input filled class="q-mb-md" label="Ip" mask="###.###.###.###"
+                                v-model="cloneCurrentRow.ip"></q-input>
+                            <div class="row">
+                                <q-input filled class="q-mb-md col q-mr-md" label="Vlan" mask="###.###.###.###/##"
+                                    v-model="cloneCurrentRow.vlan"></q-input>
+                                <q-input type="number" filled class="q-mb-md col" label="Port"
+                                    v-model="cloneCurrentRow.port"></q-input>
+                            </div>
+                            <q-input filled class="q-mb-md" label="Требуемая дата отключения"
+                                v-model="cloneCurrentRow.required_date_vm_shutdown"></q-input>
+                            <div class="row">
+                                <q-select class="q-mb-md col q-mr-md" outlined
+                                    v-model="cloneCurrentRow.backup_physical_machine" :options="backupPhysical"
+                                    label="Резервное копирование физ" />
+                                <q-select class="q-mb-md col" outlined v-model="cloneCurrentRow.backup_creation_mechanism"
+                                    :options="mech" label="Механизм резервного копирования" />
+                            </div>
+                            <q-input filled class="q-mb-md" label="Доменное имя"
+                                v-model="cloneCurrentRow.domain_names"></q-input>
+                            <div class="row">
+                                <q-input filled class="q-mb-md col q-mr-md" label="Автоматическое внутренее доменное имя"
+                                    v-model="cloneCurrentRow.automatic_internal_domain_name"></q-input>
+                                <q-input filled class="q-mb-md col" label="Дополнительное внутренее доменное имя"
+                                    v-model="cloneCurrentRow.additional_internal_domain_name"></q-input>
+                            </div>
+                            <q-input filled type="textarea" class="q-mb-md" label="Комментарий"
+                                v-model="cloneCurrentRow.comment"></q-input>
+                        </q-card-section>
+                    </q-form>
                 </q-card>
             </q-dialog>
         </div>
@@ -95,7 +140,6 @@ export default {
             cloneCurrentRow: {},
             dialog: false,
             addRow: false,
-            model: null,
             backup: [],
             os: [],
             memory: [],
@@ -103,7 +147,8 @@ export default {
             location: [],
             disk: [],
             backupPhysical: [],
-            vm:[]
+            vm: [],
+            mech: []
         }
     },
     async created() {
@@ -114,8 +159,6 @@ export default {
         pullServers() {
             axios('http://localhost:7000/virtual-servers').then(data => {
                 this.rows = data.data
-                this.rowsClone = data.data.map(object => ({ ...object }))
-                console.log(this.rows)
             })
         },
         pullManuals() {
@@ -128,6 +171,7 @@ export default {
                 axios('http://localhost:7000/manuals/all_disk_location'),
                 axios('http://localhost:7000/manuals/all_backup_physical_machine'),
                 axios('http://localhost:7000/manuals/all_vm_status'),
+                axios('http://localhost:7000/manuals/all_backup_creation_mechanism'),
             ]).then(data => {
                 data[0].data.forEach((item) => {
                     this.backup.push({ id: item.id, label: item.status })
@@ -150,19 +194,24 @@ export default {
                 data[6].data.forEach((item) => {
                     this.backupPhysical.push({ id: item.id, label: item.status })
                 }),
-                data[7].data.forEach((item) => {
-                    this.vm.push({ id: item.id, label: item.status })
+                    data[7].data.forEach((item) => {
+                        this.vm.push({ id: item.id, label: item.status })
+                    })
+                data[8].data.forEach((item) => {
+                    this.mech.push({ id: item.id, label: item.status })
                 })
             })
         },
         saveRow() {
-            this.cloneCurrentRow.backup_id = this.cloneCurrentRow.backup_id?.id ? this.cloneCurrentRow.backup_id.id : this.cloneCurrentRow.backup_id
-            this.cloneCurrentRow.os_id = this.cloneCurrentRow.os_id?.id ? this.cloneCurrentRow.os_id.id : this.cloneCurrentRow.os_id
-            this.cloneCurrentRow.memory_type_id = this.cloneCurrentRow.memory_type_id?.id ? this.cloneCurrentRow.memory_type_id.id : this.cloneCurrentRow.memory_type_id
-            this.cloneCurrentRow.zabbix_agent_id = this.cloneCurrentRow.zabbix_agent_id?.id ? this.cloneCurrentRow.zabbix_agent_id.id : this.cloneCurrentRow.zabbix_agent_id
-            this.cloneCurrentRow.location_id = this.cloneCurrentRow.location_id?.id ? this.cloneCurrentRow.location_id.id : this.cloneCurrentRow.location_id
-            this.cloneCurrentRow.disk_id = this.cloneCurrentRow.disk_id?.id ? this.cloneCurrentRow.disk_id.id : this.cloneCurrentRow.disk_id
-            this.cloneCurrentRow.backup_physical_machine_id = this.cloneCurrentRow.backup_physical_machine_id?.id ? this.cloneCurrentRow.backup_physical_machine_id.id : this.cloneCurrentRow.backup_physical_machine_id
+            this.cloneCurrentRow.backup_id = this.cloneCurrentRow.backup?.id ? this.cloneCurrentRow.backup.id : this.cloneCurrentRow.backup_id
+            this.cloneCurrentRow.os_id = this.cloneCurrentRow.os?.id ? this.cloneCurrentRow.os.id : this.cloneCurrentRow.os_id
+            this.cloneCurrentRow.zabbix_agent_id = this.cloneCurrentRow.zabbix_agent?.id ? this.cloneCurrentRow.zabbix_agent.id : this.cloneCurrentRow.zabbix_agent_id
+            this.cloneCurrentRow.location_id = this.cloneCurrentRow.location?.id ? this.cloneCurrentRow.location.id : this.cloneCurrentRow.location_id
+            this.cloneCurrentRow.disk_location_id = this.cloneCurrentRow.disk_location?.id ? this.cloneCurrentRow.disk_location.id : this.cloneCurrentRow.disk_id
+            this.cloneCurrentRow.vm_status_id = this.cloneCurrentRow.vm_status?.id ? this.cloneCurrentRow.vm_status.id : this.cloneCurrentRow.vm_status_id
+            this.cloneCurrentRow.backup_physical_machine_id = this.cloneCurrentRow.backup_physical_machine?.id ? this.cloneCurrentRow.backup_physical_machine.id : this.cloneCurrentRow.backup_physical_machine_id
+            this.cloneCurrentRow.backup_creation_mechanism_id = this.cloneCurrentRow.backup_creation_mechanism?.id ? this.cloneCurrentRow.backup_creation_mechanism.id : this.cloneCurrentRow.backup_creation_mechanism_id
+
             if (this.addRow) {
                 delete this.cloneCurrentRow.id
                 axios("http://localhost:7000/virtual-servers", {
@@ -188,9 +237,11 @@ export default {
                     data: this.cloneCurrentRow
                 }).then(() => {
                     console.log("Данные обновлены")
+                    this.pullServers()
                 })
             }
             this.cloneCurrentRow = {}
+            this.dialog = false
         },
         deleteRows() {
             if (this.selected.length != 0) {
@@ -205,10 +256,12 @@ export default {
                     }))
                 })
                 axios.all(axions).then(() => { this.pullServers() })
+                this.selected = []
             }
         },
         cancelSave() {
             this.cloneCurrentRow = {}
+            this.dialog = false
         }
     },
 }

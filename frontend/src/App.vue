@@ -9,13 +9,13 @@
     </q-header>
     <q-page-container>
       <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="manuals">
+          <q-tab-panel class="q-pl-none q-pt-sm" name="manuals">
             <MainPage />
           </q-tab-panel>
-          <q-tab-panel name="server">
+          <q-tab-panel class="q-pl-none q-pt-sm" name="server">
             <ServerPage />
           </q-tab-panel>
-          <q-tab-panel name="virtual_server">
+          <q-tab-panel class="q-pl-none q-pt-sm" name="virtual_server">
             <VirtualServerPage />
           </q-tab-panel>
         </q-tab-panels>

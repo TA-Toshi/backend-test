@@ -1,19 +1,18 @@
 <template>
   <q-page class="row">
     <q-splitter v-model="splitterModel" style="width:100%;height: 100%;">
-
       <template v-slot:before>
-        <q-tabs v-model="tab" vertical  >
-          <q-tab :ripple="false" name="os" icon="laptop" label="Операционные системы" />
-          <q-tab :ripple="false" name="memory" icon="memory" label="Память" />
-          <q-tab :ripple="false" name="backup" icon="content_copy" label="Резервное копирование данных" />
-          <q-tab :ripple="false" name="zabbix" icon="support_agent" label="Zabbix" />
-          <q-tab :ripple="false" name="backupPhysical" icon="file_copy" label="Резервное копирование физической машины" />
-          <q-tab :ripple="false" name="vm" icon="pets" label="Виртуальная машина" />
-          <q-tab :ripple="false" name="disk_location" icon="gps_not_fixed" label="Нахождение диска" />
-          <q-tab :ripple="false" name="backup_creation_mechanism" icon="set_meal" label="Механизм создания резервной копии" />
-          <q-tab :ripple="false" name="location" icon="place" label="Нахождение" />
-          <q-tab :ripple="false" name="disk" icon="album" label="Диск" />
+        <q-tabs v-model="tab" w="10" vertical  >
+          <q-tab style="min-height: 40px;" name="os" icon="laptop" label="Операционные системы" />
+          <q-tab style="min-height: 40px;" name="memory" icon="memory" label="Память" />
+          <q-tab style="min-height: 40px;" name="backup" icon="content_copy" label="Резервное копирование данных" />
+          <q-tab style="min-height: 40px;" name="zabbix" icon="support_agent" label="Zabbix" />
+          <q-tab style="min-height: 40px;" name="backupPhysical" icon="file_copy" label="Резервное копирование физической машины" />
+          <q-tab style="min-height: 40px;" name="vm" icon="pets" label="Виртуальная машина" />
+          <q-tab style="min-height: 40px;" name="disk_location" icon="gps_not_fixed" label="Нахождение диска" />
+          <q-tab style="min-height: 40px;" name="backup_creation_mechanism" icon="set_meal" label="Механизм создания резервной копии" />
+          <q-tab style="min-height: 40px;" name="location" icon="place" label="Нахождение" />
+          <q-tab style="min-height: 40px;" name="disk" icon="album" label="Диск" />
         </q-tabs>
       </template>
 

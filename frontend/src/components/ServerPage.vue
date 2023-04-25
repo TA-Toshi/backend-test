@@ -8,14 +8,14 @@
                     <div class="row justify-between col">
                         <div class="q-table__title">Сервера</div>
                         <div>
-                            <q-btn class="q-mr-md" label="Добавить строку" color="primary"
+                            <q-btn class="q-mr-md" label="Добавить" color="primary"
                                 v-on:click="() => { dialog = true; addRow = true }" />
-                            <q-btn label="Удалить строку" color="primary" v-on:click="deleteRows" />
+                            <q-btn label="Удалить" color="primary" v-on:click="deleteRows" />
                         </div>
                     </div>
                 </template>
             </q-table>
-            <q-dialog v-model="dialog">
+            <q-dialog v-model="dialog" @hide="cancelSave">
                 <q-card class="col" style="max-width: 650px">
                     <q-form @submit="saveRow" @reset="cancelSave">
                         <q-card-section class="row">
@@ -115,7 +115,6 @@ export default {
             cloneCurrentRow: {},
             dialog: false,
             addRow: false,
-            model: null,
             backup: [],
             os: [],
             memory: [],
@@ -126,7 +125,7 @@ export default {
             vm: []
         }
     },
-    async created() {
+    created() {
         this.pullServers()
         this.pullManuals()
     },
@@ -134,7 +133,6 @@ export default {
         pullServers() {
             axios('http://localhost:7000/physical-servers').then(data => {
                 this.rows = data.data
-                this.rowsClone = data.data.map(object => ({ ...object }))
             })
         },
         pullManuals() {
@@ -226,6 +224,7 @@ export default {
                     }))
                 })
                 axios.all(axions).then(() => { this.pullServers() })
+                this.selected = []
             }
         },
         cancelSave() {
