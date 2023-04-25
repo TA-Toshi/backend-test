@@ -117,6 +117,7 @@ export class VirtualServersService {
 
 
             for (let vr_server in all_virtual_servers) {
+                if ((await all_virtual_servers)[vr_server].backup_status != null) {
                 const a = (await all_virtual_servers)[vr_server].backup_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
                 let num: number;
                 if (a.length == 4) {
@@ -130,6 +131,7 @@ export class VirtualServersService {
                 let su:number;
                 su = num + (await all_virtual_servers)[vr_server].disk_gb;
                 (await all_virtual_servers)[vr_server].maximum_storage_size_gb = su
+            }
             }
         
         return all_virtual_servers;
@@ -240,21 +242,24 @@ export class VirtualServersService {
             ]
     });
  
-    const a = (await vr_server).backup_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
-    let num: number;
-    if (a.length == 4) {
-        num = a[1] + (a[2]*a[3])
+    if ((await vr_server).backup_status != null) {
+        const a = (await vr_server).backup_status.status.match(/\d+/g).join(' ').split(' ').map(Number)
+        let num: number;
+        if (a.length == 4) {
+            num = a[1] + (a[2]*a[3])
+        }
+        if (a.length == 2) {
+            num = a[1]
+        }
+
+        (await vr_server).number_stored_copies_vm = num
+
+
+        let su:number;
+        su = num + (await vr_server).disk_gb;
+        (await vr_server).maximum_storage_size_gb = su
     }
-    if (a.length == 2) {
-        num = a[1]
-    }
-
-    (await vr_server).number_stored_copies_vm = num
-
-
-    let su:number;
-    su = num + (await vr_server).disk_gb;
-    (await vr_server).maximum_storage_size_gb = su
+    
 
 
         return vr_server;
