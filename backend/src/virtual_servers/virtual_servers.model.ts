@@ -34,18 +34,18 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
     id: number;
 
-    @Column({type: DataType.STRING, allowNull: true})
+    @Column({type: DataType.STRING, allowNull: true, defaultValue: "Client"})
     client: string;
 
-    @Column({type: DataType.STRING, allowNull: true})
+    @Column({type: DataType.STRING, allowNull: true, defaultValue: "Service"})
     service: string;
 
-    @Column({type: DataType.STRING, allowNull: true})
+    @Column({type: DataType.STRING, allowNull: true, defaultValue: "Environment"})
     environment: string;
 
 
     @ForeignKey(() => backup)
-    @Column({type: DataType.INTEGER})
+    @Column({type: DataType.INTEGER, defaultValue: 1})
     backup_id: number;
 
     @ForeignKey(() => vm_status)
@@ -77,7 +77,7 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     @Column({type: DataType.INTEGER, allowNull: true})
     ram: number; 
 
-    @Column({type: DataType.INTEGER, allowNull: true})
+    @Column({type: DataType.INTEGER, allowNull: true, defaultValue: 10})
     disk_gb: number; 
 
     @ForeignKey(() => disk_location)
