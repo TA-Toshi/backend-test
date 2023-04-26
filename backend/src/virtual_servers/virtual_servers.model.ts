@@ -77,7 +77,7 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
     @Column({type: DataType.INTEGER, allowNull: true})
     ram: number; 
 
-    @Column({type: DataType.INTEGER, allowNull: true, defaultValue: 10})
+    @Column({type: DataType.INTEGER, allowNull: true})
     disk_gb: number; 
 
     @ForeignKey(() => disk_location)
