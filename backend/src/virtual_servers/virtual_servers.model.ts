@@ -45,7 +45,7 @@ export class virtual_servers extends Model<virtual_servers, virtual_servers_add>
 
 
     @ForeignKey(() => backup)
-    @Column({type: DataType.INTEGER, defaultValue: 1})
+    @Column({type: DataType.INTEGER})
     backup_id: number;
 
     @ForeignKey(() => vm_status)
